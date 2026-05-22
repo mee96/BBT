@@ -16,7 +16,7 @@
         Filtra per categoria, vegà, al·lèrgens i molt més.
       </p>
       <div class="hero-btns">
-        <a class="btn-primary" href="http://127.0.0.1:8000/docs" target="_blank">docs →</a>
+        <a class="btn-primary" href="https://bbt-760x.onrender.com/docs" target="_blank">docs →</a>
         <a class="btn-secondary" routerLink="/bebidas">explorar begudes</a>
       </div>
     </div>
@@ -112,6 +112,68 @@
         <div class="ep"><span class="method">GET</span><span class="ep-path">/toppings</span><span class="ep-tag">tops</span></div>
         <div class="ep"><span class="method">GET</span><span class="ep-path">/alergenos</span><span class="ep-tag">alerg</span></div>
         <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos <span class="ep-params">?usuario_id= &amp;estado=</span></span><span class="ep-tag">pedidos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXEMPLES DE CODI -->
+  <section class="section">
+    <p class="sec-title">✦ EXEMPLES DE CODI</p>
+    <p class="sec-sub">Comença a usar la API en segons</p>
+
+    <div class="pbox-dark">
+      <div class="titlebar-dark">
+        <span class="tb-dot-dark" style="background:#ff5f57"></span>
+        <span class="tb-dot-dark" style="background:#febc2e"></span>
+        <span class="tb-dot-dark" style="background:#28c840"></span>
+        <span class="tb-title-dark">exemple_de_codi</span>
+      </div>
+
+      <div class="code-tabs">
+        <button class="code-tab" [class.actiu]="tabActiu === 'js'"     (click)="tabActiu = 'js'">JavaScript</button>
+        <button class="code-tab" [class.actiu]="tabActiu === 'python'" (click)="tabActiu = 'python'">Python</button>
+        <button class="code-tab" [class.actiu]="tabActiu === 'curl'"   (click)="tabActiu = 'curl'">cURL</button>
+      </div>
+
+      <pre class="code-body" [hidden]="tabActiu !== 'js'"><span class="c-comment">// Obtenir totes les begudes actives</span>
+<span class="c-kw">const</span> res = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/?activo=true'</span>)
+<span class="c-kw">const</span> bebidas = <span class="c-kw">await</span> res.<span class="c-blue">json</span>()
+<span class="c-white">console</span>.<span class="c-blue">log</span>(bebidas)
+
+<span class="c-comment">// Beguda aleatòria ✨</span>
+<span class="c-kw">const</span> random = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>)
+<span class="c-kw">const</span> bebida = <span class="c-kw">await</span> random.<span class="c-blue">json</span>()
+<span class="c-white">console</span>.<span class="c-blue">log</span>(bebida.nombre) <span class="c-comment">// "Rey del Limón"</span>
+
+<span class="c-comment">// Filtrar per categoria Frutal</span>
+<span class="c-kw">const</span> frutal = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/?categoria_id=3'</span>)
+<span class="c-kw">const</span> data = <span class="c-kw">await</span> frutal.<span class="c-blue">json</span>()</pre>
+
+      <pre class="code-body" [hidden]="tabActiu !== 'python'"><span class="c-comment"># Obtenir totes les begudes actives</span>
+<span class="c-kw">import</span> requests
+
+res = requests.<span class="c-blue">get</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/'</span>,
+                   params=&#123;<span class="c-str">'activo'</span>: <span class="c-str">'true'</span>&#125;)
+bebidas = res.<span class="c-blue">json</span>()
+<span class="c-blue">print</span>(bebidas)
+
+<span class="c-comment"># Beguda aleatòria ✨</span>
+random = requests.<span class="c-blue">get</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>)
+bebida = random.<span class="c-blue">json</span>()
+<span class="c-blue">print</span>(bebida[<span class="c-str">'nombre'</span>])</pre>
+
+      <pre class="code-body" [hidden]="tabActiu !== 'curl'"><span class="c-comment"># Obtenir totes les begudes actives</span>
+<span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/?activo=true'</span>
+
+<span class="c-comment"># Beguda aleatòria ✨</span>
+<span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>
+
+<span class="c-comment"># Filtrar per categoria</span>
+<span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/?categoria_id=3'</span></pre>
+
+      <div class="url-row">
+        <span class="base-url">https://bbt-760x.onrender.com</span>
+        <button class="copy-btn" (click)="copiarUrl()">📋 copiar URL</button>
       </div>
     </div>
   </section>

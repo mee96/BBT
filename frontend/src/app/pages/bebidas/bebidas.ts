@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BubbleteaService, BubbleTea } from '../../services/bubbletea';
 
@@ -27,7 +27,10 @@ export class BebidasComponent implements OnInit {
     'Té'
   ];
 
-  constructor(private bubbleteaService: BubbleteaService) {}
+  constructor(
+    private bubbleteaService: BubbleteaService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.carregarBebidas();
@@ -36,15 +39,18 @@ export class BebidasComponent implements OnInit {
   carregarBebidas(): void {
     this.loading = true;
     this.error = null;
+    this.cdr.detectChanges();
     this.bubbleteaService.getBebidas().subscribe({
       next: (bebidas: BubbleTea[]) => {
         this.totes = bebidas;
         this.bebidas = bebidas;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err: Error) => {
         this.error = 'No s\'ha pogut connectar amb la API';
         this.loading = false;
+        this.cdr.detectChanges();
         console.error(err);
       }
     });
@@ -59,5 +65,8 @@ export class BebidasComponent implements OnInit {
         (b: BubbleTea) => b.tipo_bubbletea === filtre
       );
     }
+    this.cdr.detectChanges();
   }
+
+  
 }

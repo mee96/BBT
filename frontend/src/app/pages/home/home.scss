@@ -157,3 +157,111 @@
 .ep-path { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3a2d5a; flex: 1; }
 .ep-params { color: #9b7fc7; }
 .ep-tag { font-size: 9px; padding: 2px 7px; background: #e8d8fc; color: #7b4fa6; border: 1px solid #b8a0d0; font-weight: 700; border-radius: 4px; }
+
+.sec-sub { font-size: 12px; color: #9b7fc7; margin-bottom: 12px; }
+
+.pbox-dark {
+  background: #0e0e1a;
+  border: 2px solid #534ab7;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #534ab7;
+}
+
+.titlebar-dark {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-bottom: 1.5px solid #2a2050;
+  background: #13102a;
+  border-radius: 6px 6px 0 0;
+}
+
+.tb-dot-dark {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tb-title-dark {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #9b7fc7;
+  flex: 1;
+  text-align: center;
+}
+
+.code-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 12px 14px 0;
+}
+
+.code-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 4px 12px;
+  cursor: pointer;
+  color: #4a3f70;
+  border: 1px solid #2a2050;
+  background: #13102a;
+  border-radius: 4px 4px 0 0;
+
+  &.actiu { background: #1e1840; color: #c77dcc; }
+}
+
+.code-body {
+  padding: 16px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 2;
+  border-top: 1px solid #2a2050;
+  margin: 0 14px;
+  white-space: pre-wrap;
+  color: #e0d8f0;
+}
+
+.c-comment { color: #4a3f70; }
+.c-kw      { color: #c77dcc; }
+.c-str     { color: #f9d070; }
+.c-blue    { color: #a0d0f0; }
+.c-white   { color: #e0d8f0; }
+
+.url-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid #2a2050;
+  align-items: center;
+}
+
+.base-url {
+  background: #13102a;
+  border: 1px solid #2a2050;
+  color: #c77dcc;
+  padding: 6px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  flex: 1;
+  border-radius: 4px;
+}
+
+.copy-btn {
+  background: #7b4fa6;
+  color: #fff;
+  border: 2px solid #9b7fc7;
+  padding: 6px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 #534ab7;
+   &:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #534ab7;
+    cursor: pointer;
+  }
+
+
+}

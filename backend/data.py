@@ -56,7 +56,7 @@ bebidas = [
         "categoria_id": 1, "disponible_caliente": False,
         "es_vegano": False, "tiene_cafeina": False,
         "precio_M": 4.50, "precio_L": None,
-        "alergenos": ["Lácteo"], "activo": False,       # ← inactivo (temporada)
+        "alergenos": ["Lácteo"], "activo": True,     
     },
     # --- Leche Fresca ---
     {
@@ -115,7 +115,7 @@ bebidas = [
         "categoria_id": 4, "disponible_caliente": False,
         "es_vegano": True, "tiene_cafeina": False,
         "precio_M": 5.90, "precio_L": None,
-        "alergenos": [], "activo": False,              # ← inactivo (temporada)
+        "alergenos": [], "activo": True,             (temporada)
     },
     {
         "bubbletea_id": 11, "nombre": "Zumo de Limón Natural con Yakult",
@@ -157,7 +157,7 @@ bebidas = [
         "categoria_id": 6, "disponible_caliente": False,
         "es_vegano": False, "tiene_cafeina": True,
         "precio_M": None, "precio_L": 6.00,
-        "alergenos": ["Lácteo", "Cafeína"], "activo": False,  # ← inactivo
+        "alergenos": ["Lácteo", "Cafeína"], "activo": True,  
     },
     # --- Té ---
     {
