@@ -1,0 +1,92 @@
+<main class="bebidas">
+
+  <div class="pbox pbox-pink">
+    <div class="titlebar titlebar-pink">
+      <span class="tb-dot" style="background:#f4a0c0"></span>
+      <span class="tb-dot" style="background:#f9d070"></span>
+      <span class="tb-dot" style="background:#a0d8a0"></span>
+      <span class="tb-title">bebidas.exe</span>
+    </div>
+    <div class="page-header">
+      <h1 class="page-title">TOTES LES BEGUDES 🧋</h1>
+      <p class="page-sub">{{ bebidas.length }} begudes trobades</p>
+    </div>
+  </div>
+
+  <div class="filtres">
+  <button
+    class="filtre-btn"
+    [class.actiu]="filtreActiu === 'totes'"
+    (click)="aplicarFiltre('totes')">
+    Totes
+  </button>
+  @for (cat of categories; track cat) {
+    <button
+      class="filtre-btn"
+      [class.actiu]="filtreActiu === cat"
+      (click)="aplicarFiltre(cat)">
+      {{ cat }}
+    </button>
+  }
+</div>
+
+  @if (loading) {
+    <p class="loading">Carregant... 🧋</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  @if (!loading && !error) {
+    <div class="cards-grid">
+      @for (bebida of bebidas; track bebida.bubbletea_id) {
+        <div class="pbox card" [class.inactiva]="!bebida.activo">
+          <div class="titlebar">
+            <span class="tb-dot" style="background:#c8a0e8"></span>
+            <span class="tb-dot" style="background:#c8a0e8"></span>
+            <span class="tb-title">{{ bebida.tipo_bubbletea }}</span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-name">{{ bebida.nombre }}</h2>
+            <p class="card-desc">{{ bebida.descripcion }}</p>
+
+            <div class="card-preus">
+              @if (bebida.precio_M) {
+                <span class="preu">M — {{ bebida.precio_M }}€</span>
+              }
+              @if (bebida.precio_L) {
+                <span class="preu">L — {{ bebida.precio_L }}€</span>
+              }
+            </div>
+
+            <div class="badges">
+              @if (bebida.es_vegano) {
+                <span class="badge badge-vegan">🌱 vegà</span>
+              }
+              @if (bebida.tiene_cafeina) {
+                <span class="badge badge-cafe">☕ cafeïna</span>
+              }
+              @if (bebida.disponible_caliente) {
+                <span class="badge badge-hot">🔥 calent</span>
+              }
+              @if (!bebida.activo) {
+                <span class="badge badge-off">⏸ inactiva</span>
+              }
+            </div>
+
+            @if (bebida.alergenos.length > 0) {
+              <div class="alergenos">
+                <span class="alerg-label">al·lèrgens:</span>
+                @for (alerg of bebida.alergenos; track alerg) {
+                  <span class="alerg-tag">{{ alerg }}</span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+</main>

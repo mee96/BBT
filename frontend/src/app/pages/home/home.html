@@ -1,0 +1,119 @@
+<main class="home">
+
+  <!-- HERO -->
+  <div class="pbox pbox-pink">
+    <div class="titlebar titlebar-pink">
+      <span class="tb-dot" style="background:#f4a0c0"></span>
+      <span class="tb-dot" style="background:#f9d070"></span>
+      <span class="tb-dot" style="background:#a0d8a0"></span>
+      <span class="tb-title">bubble_tea_api.exe</span>
+    </div>
+    <div class="hero-content">
+      <p class="hero-tag">✦ API REST · FastAPI · pública</p>
+      <h1 class="hero-title">THE BUBBLE<br>TEA API 🧋</h1>
+      <p class="hero-desc">
+        Una API REST gratuïta amb totes les begudes bubble tea.
+        Filtra per categoria, vegà, al·lèrgens i molt més.
+      </p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="http://127.0.0.1:8000/docs" target="_blank">docs →</a>
+        <a class="btn-secondary" routerLink="/bebidas">explorar begudes</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="pbox stat">
+      <div class="titlebar"><span class="tb-dot"></span><span class="tb-title">bebidas</span></div>
+      <div class="stat-body"><p class="stat-n">17</p><p class="stat-l">bebidas</p></div>
+    </div>
+    <div class="pbox stat">
+      <div class="titlebar"><span class="tb-dot"></span><span class="tb-title">categorías</span></div>
+      <div class="stat-body"><p class="stat-n">7</p><p class="stat-l">categorías</p></div>
+    </div>
+    <div class="pbox stat">
+      <div class="titlebar"><span class="tb-dot"></span><span class="tb-title">toppings</span></div>
+      <div class="stat-body"><p class="stat-n">8</p><p class="stat-l">toppings</p></div>
+    </div>
+    <div class="pbox stat">
+      <div class="titlebar"><span class="tb-dot"></span><span class="tb-title">endpoints</span></div>
+      <div class="stat-body"><p class="stat-n">11</p><p class="stat-l">endpoints</p></div>
+    </div>
+  </div>
+
+  <!-- RANDOM -->
+  <section class="section">
+    <p class="sec-title">✦ BEGUDA DEL MOMENT</p>
+    <div class="pbox pbox-yellow">
+      <div class="titlebar titlebar-yellow">
+        <span class="tb-dot" style="background:#f0e090"></span>
+        <span class="tb-dot" style="background:#f0e090"></span>
+        <span class="tb-dot" style="background:#f0e090"></span>
+        <span class="tb-title tb-title-yellow">random.exe</span>
+      </div>
+      <div class="random-body">
+
+        @if (loading) {
+          <p class="loading">Carregant... 🧋</p>
+        }
+
+        @if (error) {
+          <p class="error">{{ error }}</p>
+        }
+
+        @if (bebidaRandom && !loading) {
+          <div class="random-info">
+            <h2 class="random-name">{{ bebidaRandom.nombre }}</h2>
+            <p class="random-tipo">{{ bebidaRandom.tipo_bubbletea }}</p>
+            <p class="random-desc">{{ bebidaRandom.descripcion }}</p>
+            <div class="random-preus">
+              @if (bebidaRandom.precio_M) {
+                <span class="preu">M — {{ bebidaRandom.precio_M }}€</span>
+              }
+              @if (bebidaRandom.precio_L) {
+                <span class="preu">L — {{ bebidaRandom.precio_L }}€</span>
+              }
+            </div>
+            <div class="badges">
+              @if (bebidaRandom.es_vegano) {
+                <span class="badge badge-vegan">🌱 vegà</span>
+              }
+              @if (bebidaRandom.tiene_cafeina) {
+                <span class="badge badge-cafe">☕ cafeïna</span>
+              }
+              @if (bebidaRandom.disponible_caliente) {
+                <span class="badge badge-hot">🔥 calent</span>
+              }
+            </div>
+          </div>
+        }
+
+        <button class="btn-reroll" (click)="carregarRandom()">↻ altra beguda</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENDPOINTS -->
+  <section class="section">
+    <p class="sec-title">✦ ENDPOINTS</p>
+    <div class="pbox">
+      <div class="titlebar">
+        <span class="tb-dot" style="background:#f4a0c0"></span>
+        <span class="tb-dot" style="background:#f9d070"></span>
+        <span class="tb-dot" style="background:#a0d8a0"></span>
+        <span class="tb-title">endpoints.txt</span>
+      </div>
+      <div class="endpoints">
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas <span class="ep-params">?activo= &amp;vegano= &amp;categoria_id=</span></span><span class="ep-tag">bebidas</span></div>
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bebidas</span></div>
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas/<span class="ep-params">random</span> ✨</span><span class="ep-tag">bebidas</span></div>
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/categorias</span><span class="ep-tag">cats</span></div>
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/toppings</span><span class="ep-tag">tops</span></div>
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/alergenos</span><span class="ep-tag">alerg</span></div>
+        <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos <span class="ep-params">?usuario_id= &amp;estado=</span></span><span class="ep-tag">pedidos</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
