@@ -1,0 +1,53 @@
+
+
+.footer {
+  background: #e8d8f4;
+  border-top: 2px solid #b8a0d0;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #7b4fa6;
+
+  span { color: #c77dcc; }
+}
+
+.footer-desc {
+  font-size: 11px;
+  color: #9b7fc7;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.footer-link {
+  color: #7b4fa6;
+  text-decoration: none;
+  font-size: 22px;
+
+  &:hover {
+    color: #c77dcc;
+  }
+}
+
+.footer-sep {
+  color: #b8a0d0;
+  font-size: 10px;
+}
+
+.footer-copy {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #b8a0d0;
+}

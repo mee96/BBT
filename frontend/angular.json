@@ -6,13 +6,11 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "bbt-frontend": {
+    "frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "styles": [
-  "src/styles.scss"
-],
+          "style": "scss"
         }
       },
       "root": "",
@@ -63,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "bbt-frontend:build:production"
+              "buildTarget": "frontend:build:production"
             },
             "development": {
-              "buildTarget": "bbt-frontend:build:development"
+              "buildTarget": "frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
