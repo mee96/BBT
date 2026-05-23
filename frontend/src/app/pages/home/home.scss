@@ -49,7 +49,30 @@
 }
 
 // HERO
-.hero-content { padding: 16px; }
+.hero-content {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-img {
+  width: 160px;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
 
 .hero-tag {
   font-size: 10px;
@@ -106,6 +129,10 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .stat-body { padding: 12px; text-align: center; }

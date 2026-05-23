@@ -68,5 +68,18 @@ export class BebidasComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  getImatge(tipusBebida: string): string {
+  const mapa: Record<string, string> = {
+    'Té con Leche': 'assets/bbt-lila.png',
+    'Leche Fresca': 'assets/bbt-lila.png',
+    'Frappé':       'assets/bbt-lila.png',
+    'Frutal':       'assets/bbt-red.png',
+    'Probiótico':   'assets/bbt-red.png',
+    'Especial':     'assets/bbt-red.png',
+    'Té':           'assets/bbt-red.png',
+  };
+  return mapa[tipusBebida] ?? 'assets/bbt-lila.png';
+}
+
   
 }

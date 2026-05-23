@@ -76,8 +76,30 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
+.card-top {
+  display: flex;
+  align-items: center;
+ 
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.card-img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .card-body   { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .card-name   { font-family: 'Press Start 2P', monospace; font-size: 8px; color: #7b4fa6; line-height: 1.8; }
 .card-desc   { font-size: 11px; color: #6050a0; line-height: 1.5; }

@@ -14,21 +14,15 @@
   </div>
 
   <div class="filtres">
-  <button
-    class="filtre-btn"
-    [class.actiu]="filtreActiu === 'totes'"
-    (click)="aplicarFiltre('totes')">
-    Totes
-  </button>
-  @for (cat of categories; track cat) {
-    <button
-      class="filtre-btn"
-      [class.actiu]="filtreActiu === cat"
-      (click)="aplicarFiltre(cat)">
-      {{ cat }}
+    <button class="filtre-btn" [class.actiu]="filtreActiu === 'totes'" (click)="aplicarFiltre('totes')">
+      Totes
     </button>
-  }
-</div>
+    @for (cat of categories; track cat) {
+      <button class="filtre-btn" [class.actiu]="filtreActiu === cat" (click)="aplicarFiltre(cat)">
+        {{ cat }}
+      </button>
+    }
+  </div>
 
   @if (loading) {
     <p class="loading">Carregant... 🧋</p>
@@ -48,8 +42,13 @@
             <span class="tb-title">{{ bebida.tipo_bubbletea }}</span>
           </div>
           <div class="card-body">
-            <h2 class="card-name">{{ bebida.nombre }}</h2>
-            <p class="card-desc">{{ bebida.descripcion }}</p>
+            <div class="card-top">
+              <div class="card-info">
+                <h2 class="card-name">{{ bebida.nombre }}</h2>
+                <p class="card-desc">{{ bebida.descripcion }}</p>
+              </div>
+              <img class="card-img" [src]="getImatge(bebida.tipo_bubbletea)" [alt]="bebida.nombre" />
+            </div>
 
             <div class="card-preus">
               @if (bebida.precio_M) {
@@ -70,9 +69,7 @@
               @if (bebida.disponible_caliente) {
                 <span class="badge badge-hot">🔥 calent</span>
               }
-              @if (!bebida.activo) {
-                <span class="badge badge-off">⏸ inactiva</span>
-              }
+              
             </div>
 
             @if (bebida.alergenos.length > 0) {
