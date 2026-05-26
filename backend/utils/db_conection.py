@@ -15,7 +15,7 @@ conn = None
 # Connexió tallada → not conn.open → reconnecta
 # Connexió activa → no entra al if → reutilitza la mateixa
 
-# # És el patró lazy connection — només connecta quan cal i reutilitza la connexió existent si ja funciona. Estalvia recursos i evita obrir mil connexions innecessàries.
+# # SINGELTON!!!(una sola connexio, com es algo simple ho hem de fer natros, si ya esta ya no lo vuelvo a crear lo retorno, si no esta, lo creo)  És el patró lazy connection — només connecta quan cal i reutilitza la connexió existent si ja funciona. Estalvia recursos i evita obrir mil connexions innecessàries.
 
 
 def get_connection():
