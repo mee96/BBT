@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Query
 from typing import Optional
-from models import Pedido
-from data import pedidos
+from utils.db_conection import get_connection
 
 router = APIRouter(prefix="/pedidos", tags=["Pedidos"])
 
@@ -10,20 +9,37 @@ router = APIRouter(prefix="/pedidos", tags=["Pedidos"])
 def get_pedidos(
     usuario_id: Optional[int] = Query(None, description="Filtrar por usuario"),
     estado:     Optional[str] = Query(None, description="PENDIENTE | ENVIADO | RECIBIDO | DEVUELTO"),
-) -> list[Pedido]:
-    resultado = pedidos
+):
+    try:
+        conn = get_connection()
+        with conn.cursor() as cur:
+            query = "SELECT * FROM pedido WHERE 1=1"
+            params = []
 
-    if usuario_id is not None:
-        resultado = [p for p in resultado if p["usuario_id"] == usuario_id]
-    if estado is not None:
-        resultado = [p for p in resultado if p["estado"] == estado.upper()]
+            if usuario_id is not None:
+                query += " AND usuario_id = %s"
+                params.append(usuario_id)
+            if estado is not None:
+                query += " AND estado = %s"
+                params.append(estado.upper())
 
-    return resultado
+            cur.execute(query, params)
+            rows = cur.fetchall()
+        return {"ok": True, "result": rows}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
 
 
 @router.get("/{pedido_id}")
-def get_pedido(pedido_id: int) -> Pedido:
-    p = next((p for p in pedidos if p["pedido_id"] == pedido_id), None)
-    if not p:
-        raise HTTPException(status_code=404, detail="Pedido no encontrado")
-    return p
+def get_pedido(pedido_id: int):
+    try:
+        conn = get_connection()
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT * FROM pedido WHERE pedido_id = %s",
+                (pedido_id,)
+            )
+            row = cur.fetchone()
+        return {"ok": True, "result": row}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}

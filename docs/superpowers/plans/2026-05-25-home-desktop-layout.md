@@ -1,0 +1,655 @@
+# Home Desktop Layout Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Afegir un layout de 3 files en grid per a desktop (≥ 768 px) a la home, mantenint tot el contingut Angular existent i el layout d'una sola columna a mobile.
+
+**Architecture:** Dos fitxers afectats (`home.html` i `home.scss`). La plantilla s'envolta amb 3 `.home-row` que actuen de contenidors de fila. El SCSS usa mobile-first: per defecte flex-col, i a `@media (min-width: 768px)` passa a grid amb les proporcions especificades. `home.ts` no es toca.
+
+**Tech Stack:** Angular 20+ standalone, SCSS, CSS Grid, CSS Flexbox
+
+---
+
+## Fitxers afectats
+
+- **Modify:** `frontend/src/app/pages/home/home.html`
+- **Modify:** `frontend/src/app/pages/home/home.scss`
+
+---
+
+### Task 1: Reestructurar home.html
+
+**Files:**
+- Modify: `frontend/src/app/pages/home/home.html`
+
+- [ ] **Step 1: Verificar el build actual (baseline)**
+
+```bash
+cd frontend && ng build --configuration=development 2>&1 | tail -5
+```
+Expected: `Build at:` sense errors. Si falla, atura i diagnostica.
+
+- [ ] **Step 2: Substituir el contingut complet de home.html**
+
+Reemplaça tot el fitxer `frontend/src/app/pages/home/home.html` amb:
+
+```html
+<main class="home">
+
+  <!-- FILA 1: hero | imatge + stats -->
+  <div class="home-row home-row-1">
+
+    <div class="pbox pbox-pink">
+      <div class="titlebar titlebar-pink">
+        <span class="tb-dot" style="background:#f4a0c0"></span>
+        <span class="tb-dot" style="background:#f9d070"></span>
+        <span class="tb-dot" style="background:#a0d8a0"></span>
+        <span class="tb-title">bubble_tea_api.exe</span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-text">
+          <p class="hero-tag">✦ API REST · FastAPI · pública</p>
+          <h1 class="hero-title">THE BUBBLE<br>TEA API 🧋</h1>
+          <p class="hero-desc">
+            Una API REST gratuïta amb totes les begudes bubble tea.
+            Filtra per categoria, vegà, al·lèrgens i molt més.
+          </p>
+          <div class="hero-btns">
+            <a class="btn-primary" href="https://bbt-760x.onrender.com/docs" target="_blank">docs →</a>
+            <a class="btn-secondary" routerLink="/bebidas">explorar begudes</a>
+          </div>
+        </div>
+        <div class="hero-img">
+          <img src="assets/bbt-red.png" alt="bubble tea" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row1-right">
+      <img class="bbt-lila-deco" src="assets/bbt-lila.png" alt="" aria-hidden="true" />
+      <div class="pbox stats-inline">
+        <div class="titlebar">
+          <span class="tb-dot"></span>
+          <span class="tb-title">stats.exe</span>
+        </div>
+        <div class="stats-row">
+          <div class="stat-item">
+            <p class="stat-n">17</p>
+            <p class="stat-l">bebidas</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-n">7</p>
+            <p class="stat-l">cats</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-n">8</p>
+            <p class="stat-l">tops</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-n">11</p>
+            <p class="stat-l">ep</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FILA 2: beguda del moment | endpoints -->
+  <div class="home-row home-row-2">
+
+    <section class="section">
+      <p class="sec-title">✦ BEGUDA DEL MOMENT</p>
+      <div class="pbox pbox-yellow">
+        <div class="titlebar titlebar-yellow">
+          <span class="tb-dot" style="background:#f0e090"></span>
+          <span class="tb-dot" style="background:#f0e090"></span>
+          <span class="tb-dot" style="background:#f0e090"></span>
+          <span class="tb-title tb-title-yellow">random.exe</span>
+        </div>
+        <div class="random-body">
+
+          @if (loading) {
+            <p class="loading">Carregant... 🧋</p>
+          }
+
+          @if (error) {
+            <p class="error">{{ error }}</p>
+          }
+
+          @if (bebidaRandom && !loading) {
+            <div class="random-info">
+              <h2 class="random-name">{{ bebidaRandom.nombre }}</h2>
+              <p class="random-tipo">{{ bebidaRandom.tipo_bubbletea }}</p>
+              <p class="random-desc">{{ bebidaRandom.descripcion }}</p>
+              <div class="random-preus">
+                @if (bebidaRandom.precio_M) {
+                  <span class="preu">M — {{ bebidaRandom.precio_M }}€</span>
+                }
+                @if (bebidaRandom.precio_L) {
+                  <span class="preu">L — {{ bebidaRandom.precio_L }}€</span>
+                }
+              </div>
+              <div class="badges">
+                @if (bebidaRandom.es_vegano) {
+                  <span class="badge badge-vegan">🌱 vegà</span>
+                }
+                @if (bebidaRandom.tiene_cafeina) {
+                  <span class="badge badge-cafe">☕ cafeïna</span>
+                }
+                @if (bebidaRandom.disponible_caliente) {
+                  <span class="badge badge-hot">🔥 calent</span>
+                }
+              </div>
+            </div>
+          }
+
+          <button class="btn-reroll" (click)="carregarRandom()">↻ altra beguda</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="sec-title">✦ ENDPOINTS</p>
+      <div class="pbox">
+        <div class="titlebar">
+          <span class="tb-dot" style="background:#f4a0c0"></span>
+          <span class="tb-dot" style="background:#f9d070"></span>
+          <span class="tb-dot" style="background:#a0d8a0"></span>
+          <span class="tb-title">endpoints.txt</span>
+        </div>
+        <div class="endpoints">
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas <span class="ep-params">?activo= &amp;vegano= &amp;categoria_id=</span></span><span class="ep-tag">bebidas</span></div>
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bebidas</span></div>
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas/<span class="ep-params">random</span> ✨</span><span class="ep-tag">bebidas</span></div>
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/categorias</span><span class="ep-tag">cats</span></div>
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/toppings</span><span class="ep-tag">tops</span></div>
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/alergenos</span><span class="ep-tag">alerg</span></div>
+          <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos <span class="ep-params">?usuario_id= &amp;estado=</span></span><span class="ep-tag">pedidos</span></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FILA 3: exemples de codi | SVGs decoratius -->
+  <div class="home-row home-row-3">
+
+    <section class="section">
+      <p class="sec-title">✦ EXEMPLES DE CODI</p>
+      <p class="sec-sub">Comença a usar la API en segons</p>
+
+      <div class="pbox-dark">
+        <div class="titlebar-dark">
+          <span class="tb-dot-dark" style="background:#ff5f57"></span>
+          <span class="tb-dot-dark" style="background:#febc2e"></span>
+          <span class="tb-dot-dark" style="background:#28c840"></span>
+          <span class="tb-title-dark">exemple_de_codi</span>
+        </div>
+
+        <div class="code-tabs">
+          <button class="code-tab" [class.actiu]="tabActiu === 'js'"     (click)="tabActiu = 'js'">JavaScript</button>
+          <button class="code-tab" [class.actiu]="tabActiu === 'python'" (click)="tabActiu = 'python'">Python</button>
+          <button class="code-tab" [class.actiu]="tabActiu === 'curl'"   (click)="tabActiu = 'curl'">cURL</button>
+        </div>
+
+        <pre class="code-body" [hidden]="tabActiu !== 'js'"><span class="c-comment">// Obtenir totes les begudes actives</span>
+<span class="c-kw">const</span> res = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/?activo=true'</span>)
+<span class="c-kw">const</span> bebidas = <span class="c-kw">await</span> res.<span class="c-blue">json</span>()
+<span class="c-white">console</span>.<span class="c-blue">log</span>(bebidas)
+
+<span class="c-comment">// Beguda aleatòria ✨</span>
+<span class="c-kw">const</span> random = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>)
+<span class="c-kw">const</span> bebida = <span class="c-kw">await</span> random.<span class="c-blue">json</span>()
+<span class="c-white">console</span>.<span class="c-blue">log</span>(bebida.nombre) <span class="c-comment">// "Rey del Limón"</span>
+
+<span class="c-comment">// Filtrar per categoria Frutal</span>
+<span class="c-kw">const</span> frutal = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/?categoria_id=3'</span>)
+<span class="c-kw">const</span> data = <span class="c-kw">await</span> frutal.<span class="c-blue">json</span>()</pre>
+
+        <pre class="code-body" [hidden]="tabActiu !== 'python'"><span class="c-comment"># Obtenir totes les begudes actives</span>
+<span class="c-kw">import</span> requests
+
+res = requests.<span class="c-blue">get</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/'</span>,
+                   params=&#123;<span class="c-str">'activo'</span>: <span class="c-str">'true'</span>&#125;)
+bebidas = res.<span class="c-blue">json</span>()
+<span class="c-blue">print</span>(bebidas)
+
+<span class="c-comment"># Beguda aleatòria ✨</span>
+random = requests.<span class="c-blue">get</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>)
+bebida = random.<span class="c-blue">json</span>()
+<span class="c-blue">print</span>(bebida[<span class="c-str">'nombre'</span>])</pre>
+
+        <pre class="code-body" [hidden]="tabActiu !== 'curl'"><span class="c-comment"># Obtenir totes les begudes actives</span>
+<span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/?activo=true'</span>
+
+<span class="c-comment"># Beguda aleatòria ✨</span>
+<span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>
+
+<span class="c-comment"># Filtrar per categoria</span>
+<span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/?categoria_id=3'</span></pre>
+
+        <div class="url-row">
+          <span class="base-url">https://bbt-760x.onrender.com</span>
+          <button class="copy-btn" (click)="copiarUrl()">📋 copiar URL</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SVGs decoratius: usuari els afegirà -->
+    <div class="deco-svgs" aria-hidden="true">
+    </div>
+
+  </div>
+
+</main>
+```
+
+- [ ] **Step 3: Verificar que el build compila sense errors**
+
+```bash
+cd frontend && ng build --configuration=development 2>&1 | tail -10
+```
+Expected: `Build at:` sense errors de compilació. Si hi ha errors de template, corregir abans de continuar.
+
+---
+
+### Task 2: Actualitzar home.scss
+
+**Files:**
+- Modify: `frontend/src/app/pages/home/home.scss`
+
+- [ ] **Step 1: Substituir el contingut complet de home.scss**
+
+Reemplaça tot el fitxer `frontend/src/app/pages/home/home.scss` amb:
+
+```scss
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+// CAIXES PIXEL
+.pbox {
+  background: #f0eaf8;
+  border: 2px solid #b8a0d0;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #b8a0d0;
+
+  &.pbox-pink  { background: #fce8f0; border-color: #e8a0c0; box-shadow: 3px 3px 0 #e8a0c0; }
+  &.pbox-yellow{ background: #fdf8e8; border-color: #d8c870; box-shadow: 3px 3px 0 #d8c870; }
+}
+
+// TITLEBAR
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-bottom: 1.5px solid #b8a0d0;
+  background: #e0d0f0;
+  border-radius: 6px 6px 0 0;
+
+  &.titlebar-pink   { background: #f4c0d8; border-bottom-color: #e8a0c0; }
+  &.titlebar-yellow { background: #f0e090; border-bottom-color: #d8c870; }
+}
+
+.tb-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c8a0e8;
+  display: inline-block;
+}
+
+.tb-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #7b4fa6;
+  flex: 1;
+  text-align: center;
+
+  &.tb-title-yellow { color: #806020; }
+}
+
+// HERO
+.hero-content {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-img {
+  width: 160px;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
+.hero-tag {
+  font-size: 10px;
+  color: #9b7fc7;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.hero-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #7b4fa6;
+  line-height: 2.2;
+  margin-bottom: 10px;
+}
+
+.hero-desc {
+  color: #6050a0;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.hero-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.btn-primary {
+  background: #9b7fc7;
+  color: #fff;
+  border: 2px solid #7b4fa6;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #7b4fa6;
+  text-decoration: none;
+  &:hover { transform: translate(1px,1px); box-shadow: 1px 1px 0 #7b4fa6; }
+}
+
+.btn-secondary {
+  background: #f0eaf8;
+  color: #7b4fa6;
+  border: 2px solid #b8a0d0;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #b8a0d0;
+  text-decoration: none;
+}
+
+// ─── LAYOUT ROWS ────────────────────────────────────────────────────────────
+
+.home-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (min-width: 768px) {
+    display: grid;
+    align-items: start;
+    gap: 16px;
+  }
+}
+
+.home-row-1 {
+  @media (min-width: 768px) {
+    grid-template-columns: 1.3fr 0.9fr;
+  }
+}
+
+.home-row-2 {
+  @media (min-width: 768px) {
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: stretch;
+  }
+}
+
+.home-row-3 {
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+// ─── ROW 1 DRETA ────────────────────────────────────────────────────────────
+
+.row1-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.bbt-lila-deco {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin: 0 auto;
+  transform: rotate(-6deg);
+}
+
+// STATS INLINE (una sola pbox)
+.stats-row {
+  display: flex;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 12px 8px;
+
+  & + .stat-item {
+    border-left: 1.5px dashed #b8a0d0;
+  }
+}
+
+.stat-n { font-family: 'Press Start 2P', monospace; font-size: 14px; color: #7b4fa6; margin-bottom: 4px; }
+.stat-l { font-size: 11px; color: #9b7fc7; font-weight: 700; }
+
+// ─── ROW 3 DRETA ────────────────────────────────────────────────────────────
+
+.deco-svgs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 16px;
+}
+
+// ─── SECTION ────────────────────────────────────────────────────────────────
+
+.section { display: flex; flex-direction: column; gap: 10px; }
+.sec-title { font-family: 'Press Start 2P', monospace; font-size: 8px; color: #7b4fa6; }
+.sec-sub { font-size: 12px; color: #9b7fc7; margin-bottom: 12px; }
+
+// ─── RANDOM ─────────────────────────────────────────────────────────────────
+
+.random-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.random-name { font-family: 'Press Start 2P', monospace; font-size: 10px; color: #7b4fa6; margin-bottom: 4px; }
+.random-tipo { font-size: 11px; color: #9b7fc7; font-weight: 700; margin-bottom: 6px; }
+.random-desc { font-size: 13px; color: #6050a0; line-height: 1.6; margin-bottom: 8px; }
+.random-preus { display: flex; gap: 10px; margin-bottom: 8px; }
+.preu { font-family: 'Press Start 2P', monospace; font-size: 9px; color: #7b4fa6; }
+
+.badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge { font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+.badge-vegan { background: #d8f0d8; color: #2a5a2a; border: 1px solid #4a8a4a; }
+.badge-cafe  { background: #f0e8d0; color: #6a4a10; border: 1px solid #a08030; }
+.badge-hot   { background: #f8d8d0; color: #8a2a10; border: 1px solid #c05030; }
+
+.btn-reroll {
+  background: #f0eaf8;
+  color: #7b4fa6;
+  border: 2px solid #b8a0d0;
+  padding: 8px 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #b8a0d0;
+  align-self: flex-start;
+  &:hover { transform: translate(1px,1px); box-shadow: 1px 1px 0 #b8a0d0; }
+}
+
+.loading { color: #9b7fc7; font-family: 'Press Start 2P', monospace; font-size: 8px; }
+.error   { color: #c05030; font-size: 12px; font-weight: 700; }
+
+// ─── ENDPOINTS ──────────────────────────────────────────────────────────────
+
+.endpoints { display: flex; flex-direction: column; }
+.ep {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  & + .ep { border-top: 1.5px dashed #d0c0e8; }
+}
+.method { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; padding: 3px 8px; background: #d8f0d8; color: #2a5a2a; border: 1.5px solid #4a8a4a; min-width: 40px; text-align: center; }
+.ep-path { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3a2d5a; flex: 1; }
+.ep-params { color: #9b7fc7; }
+.ep-tag { font-size: 9px; padding: 2px 7px; background: #e8d8fc; color: #7b4fa6; border: 1px solid #b8a0d0; font-weight: 700; border-radius: 4px; }
+
+// ─── CODI ───────────────────────────────────────────────────────────────────
+
+.pbox-dark {
+  background: #0e0e1a;
+  border: 2px solid #534ab7;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #534ab7;
+}
+
+.titlebar-dark {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-bottom: 1.5px solid #2a2050;
+  background: #13102a;
+  border-radius: 6px 6px 0 0;
+}
+
+.tb-dot-dark {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tb-title-dark {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #9b7fc7;
+  flex: 1;
+  text-align: center;
+}
+
+.code-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 12px 14px 0;
+}
+
+.code-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 4px 12px;
+  cursor: pointer;
+  color: #4a3f70;
+  border: 1px solid #2a2050;
+  background: #13102a;
+  border-radius: 4px 4px 0 0;
+
+  &.actiu { background: #1e1840; color: #c77dcc; }
+}
+
+.code-body {
+  padding: 16px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 2;
+  border-top: 1px solid #2a2050;
+  margin: 0 14px;
+  white-space: pre-wrap;
+  color: #e0d8f0;
+}
+
+.c-comment { color: #4a3f70; }
+.c-kw      { color: #c77dcc; }
+.c-str     { color: #f9d070; }
+.c-blue    { color: #a0d0f0; }
+.c-white   { color: #e0d8f0; }
+
+.url-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid #2a2050;
+  align-items: center;
+}
+
+.base-url {
+  background: #13102a;
+  border: 1px solid #2a2050;
+  color: #c77dcc;
+  padding: 6px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  flex: 1;
+  border-radius: 4px;
+}
+
+.copy-btn {
+  background: #7b4fa6;
+  color: #fff;
+  border: 2px solid #9b7fc7;
+  padding: 6px 12px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 #534ab7;
+  &:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #534ab7;
+    cursor: pointer;
+  }
+}
+```
+
+- [ ] **Step 2: Verificar build i commit**
+
+```bash
+cd frontend && ng build --configuration=development 2>&1 | tail -10
+```
+Expected: `Build at:` sense errors.
+
+```bash
+cd .. && git add frontend/src/app/pages/home/home.html frontend/src/app/pages/home/home.scss && git commit -m "feat: layout desktop home en 3 files grid
+
+- 3 home-row containers amb grids responsive (768px breakpoint)
+- Stats substituïts per una sola pbox inline amb border dashed
+- bbt-lila.png rotada -6deg a fila 1 dreta
+- .deco-svgs placeholder a fila 3 dreta
+- Mobile: columna única (comportament existent)"
+```
+
+---
+
+## Self-review
+
+- ✅ **Spec coverage:** 3 files amb proporcions correctes · stats inline · bbt-lila rotada · `.deco-svgs` buit · mobile single-col · lògica Angular intacta · `home.ts` no tocat
+- ✅ **Sense placeholders:** tot el codi és complet i concret
+- ✅ **Consistència de tipus:** `.stat-n`, `.stat-l`, `.stats-row`, `.stat-item` definits al SCSS i usats al HTML
+- ✅ **`.home-row` + `.home-row-1/2/3`** coherents entre HTML i SCSS

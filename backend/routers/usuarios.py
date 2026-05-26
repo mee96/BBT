@@ -1,18 +1,31 @@
-from fastapi import APIRouter, HTTPException
-from models import Usuario
-from data import usuarios
+from fastapi import APIRouter
+from utils.db_conection import get_connection
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
 
 @router.get("/")
-def get_usuarios() -> list[Usuario]:
-    return usuarios
+def get_usuarios():
+    try:
+        conn = get_connection()
+        with conn.cursor() as cur:
+            cur.execute("SELECT * FROM usuario")
+            rows = cur.fetchall()
+        return {"ok": True, "result": rows}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
 
 
 @router.get("/{usuario_id}")
-def get_usuario(usuario_id: int) -> Usuario:
-    u = next((u for u in usuarios if u["usuario_id"] == usuario_id), None)
-    if not u:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    return u
+def get_usuario(usuario_id: int):
+    try:
+        conn = get_connection()
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT * FROM usuario WHERE usuario_id = %s",
+                (usuario_id,)
+            )
+            row = cur.fetchone()
+        return {"ok": True, "result": row}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}

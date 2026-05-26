@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface BubbleTea {
   bubbletea_id: number;
@@ -24,6 +25,11 @@ export interface BebidaFiltres {
   categoria_id?: number;
 }
 
+interface ApiResponse<T> {
+  ok: boolean;
+  result: T;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,15 +40,18 @@ export class BubbleteaService {
   constructor(private http: HttpClient) {}
 
   getBebidas(): Observable<BubbleTea[]> {
-    return this.http.get<BubbleTea[]>(`${this.apiUrl}bebidas/`);
+    return this.http.get<ApiResponse<BubbleTea[]>>(`${this.apiUrl}bubbleteas/`)
+      .pipe(map(res => res.result));
   }
 
   getBebida(id: number): Observable<BubbleTea> {
-    return this.http.get<BubbleTea>(`${this.apiUrl}bebidas/${id}`);
+    return this.http.get<ApiResponse<BubbleTea>>(`${this.apiUrl}bubbleteas/${id}`)
+      .pipe(map(res => res.result));
   }
 
   getBebidaRandom(): Observable<BubbleTea> {
-    return this.http.get<BubbleTea>(`${this.apiUrl}bebidas/random`);
+    return this.http.get<ApiResponse<BubbleTea>>(`${this.apiUrl}bubbleteas/random`)
+      .pipe(map(res => res.result));
   }
 
   getBebidasFiltrades(filtres: BebidaFiltres): Observable<BubbleTea[]> {
@@ -61,6 +70,7 @@ export class BubbleteaService {
       params = params.set('categoria_id', filtres.categoria_id.toString());
     }
 
-    return this.http.get<BubbleTea[]>(`${this.apiUrl}bebidas/`, { params });
+    return this.http.get<ApiResponse<BubbleTea[]>>(`${this.apiUrl}bubbleteas/`, { params })
+      .pipe(map(res => res.result));
   }
 }

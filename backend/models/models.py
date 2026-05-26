@@ -66,3 +66,17 @@ class Pedido(TypedDict):
     estado: str
     precio_total: float
     lineas: List[PedidoLinea]
+
+
+from pydantic import BaseModel
+
+class BubbleTeaCreate(BaseModel):
+    nombre: str
+    tipo_bubbletea: str
+    descripcion: Optional[str] = None
+    categoria_id: Optional[int] = None
+    disponible_caliente: bool = False
+    es_vegano: bool = False
+    tiene_cafeina: bool = False
+    stock: int = 0
+    active: bool = True

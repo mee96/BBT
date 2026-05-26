@@ -1,11 +1,11 @@
 -- ============================================================
---  BUBBLETEA DATABASE GNAAARLY
+--  BUBBLETEA DATABASE - Script completo corregido
 --  Inspirado en el menú CoCo BubbleTea
 -- ============================================================
 
-DROP DATABASE IF EXISTS bubbletea;
-CREATE DATABASE bubbletea CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE bubbletea;
+-- DROP DATABASE IF EXISTS bubbletea;
+-- CREATE DATABASE defaultdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE bubbletea;
 
 -- ------------------------------------------------------------
 -- 1. USUARIO
@@ -363,3 +363,5 @@ INSERT INTO pedido_linea_topping (linea_id, topping_id) VALUES
 
 -- Verificación final
 SHOW TABLES;
+
+ALTER TABLE bubbletea ADD COLUMN active BOOLEAN NOT NULL DEFAULT TRUE;
