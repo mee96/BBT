@@ -115,7 +115,7 @@ bebidas = [
         "categoria_id": 4, "disponible_caliente": False,
         "es_vegano": True, "tiene_cafeina": False,
         "precio_M": 5.90, "precio_L": None,
-        "alergenos": [], "activo": True,             (temporada)
+        "alergenos": [], "activo": True,             
     },
     {
         "bubbletea_id": 11, "nombre": "Zumo de Limón Natural con Yakult",
