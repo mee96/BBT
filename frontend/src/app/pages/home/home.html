@@ -13,7 +13,7 @@
 </div>
 
   <!-- CONTINGUT CENTRAL -->
-  <main class="home">
+  <main class="home" style="padding-top:60px">
 
     <!-- FILA 1: hero | puddin + stats -->
     <div class="home-row home-row-1" >
@@ -65,7 +65,7 @@
     <!-- FILA 2: beguda del moment | endpoints -->
     <div class="home-row home-row-2">
 
-      <section class="section">
+      <section class="section" style="padding-top:20px">
         <p class="sec-title">✦ BEGUDA DEL MOMENT</p>
         <div class="pbox pbox-yellow">
           <div class="titlebar titlebar-yellow">
@@ -114,7 +114,7 @@
         <img src="assets/puddin.png" alt="" aria-hidden="true" class="puddin-deco"/>
       </section>
 
-      <section class="section">
+      <section class="section" style="padding-top:60px">
   <p class="sec-title">✦ ENDPOINTS</p>
   <div class="pbox">
     <div class="titlebar">
@@ -128,7 +128,7 @@
       <p class="ep-group">BubbleTeas</p>
       <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas <span class="ep-params">?activo= &amp;vegano= &amp;categoria_id=</span></span><span class="ep-tag">bbt</span></div>
       <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bbt</span></div>
-      <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas/<span class="ep-params">random</span> ✨</span><span class="ep-tag">bbt</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas/<span class="ep-params">random</span> </span><span class="ep-tag">bbt</span></div>
       <div class="ep"><span class="method method-post">POST</span><span class="ep-path">/bubbleteas</span><span class="ep-tag">bbt</span></div>
       <div class="ep"><span class="method method-put">PUT</span><span class="ep-path">/bubbleteas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bbt</span></div>
       <div class="ep"><span class="method method-delete">DELETE</span><span class="ep-path">/bubbleteas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bbt</span></div>
@@ -145,9 +145,9 @@
       <p class="ep-group">Usuarios</p>
       <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios</span><span class="ep-tag">users</span></div>
       <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">users</span></div>
-      <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios/firebase/<span class="ep-params">&#123;uid&#125;</span></span><span class="ep-tag">users</span></div>
+      <!-- <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios/firebase/<span class="ep-params">&#123;uid&#125;</span></span><span class="ep-tag">users</span></div> -->
       <div class="ep"><span class="method method-post">POST</span><span class="ep-path">/usuarios</span><span class="ep-tag">users</span></div>
-      <div class="ep"><span class="method method-put">PUT</span><span class="ep-path">/usuarios/firebase/<span class="ep-params">&#123;uid&#125;</span></span><span class="ep-tag">users</span></div>
+      <!-- <div class="ep"><span class="method method-put">PUT</span><span class="ep-path">/usuarios/firebase/<span class="ep-params">&#123;uid&#125;</span></span><span class="ep-tag">users</span></div> -->
 
       <p class="ep-group">Pedidos</p>
       <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos <span class="ep-params">?usuario_id= &amp;estado=</span></span><span class="ep-tag">pedidos</span></div>
@@ -160,7 +160,7 @@
     </div>
 
     <!-- FILA 3: exemples de codi -->
-    <section class="section">
+    <section class="section"style="padding-top:40px">
       <p class="sec-title">✦ EXEMPLES DE CODI</p>
       <p class="sec-sub">Comença a usar la API en segons</p>
       <div class="pbox-dark">
@@ -180,7 +180,7 @@
 <span class="c-kw">const</span> bebidas = <span class="c-kw">await</span> res.<span class="c-blue">json</span>()
 <span class="c-white">console</span>.<span class="c-blue">log</span>(bebidas)
 
-<span class="c-comment">// Beguda aleatòria ✨</span>
+<span class="c-comment">// Beguda aleatòria </span>
 <span class="c-kw">const</span> random = <span class="c-kw">await</span> <span class="c-blue">fetch</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>)
 <span class="c-kw">const</span> bebida = <span class="c-kw">await</span> random.<span class="c-blue">json</span>()
 <span class="c-white">console</span>.<span class="c-blue">log</span>(bebida.nombre) <span class="c-comment">// "Rey del Limón"</span>
@@ -196,14 +196,14 @@ res = requests.<span class="c-blue">get</span>(<span class="c-str">'https://bbt-
 bebidas = res.<span class="c-blue">json</span>()
 <span class="c-blue">print</span>(bebidas)
 
-<span class="c-comment"># Beguda aleatòria ✨</span>
+<span class="c-comment"># Beguda aleatòria </span>
 random = requests.<span class="c-blue">get</span>(<span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>)
 bebida = random.<span class="c-blue">json</span>()
 <span class="c-blue">print</span>(bebida[<span class="c-str">'nombre'</span>])</pre>
         <pre class="code-body" [hidden]="tabActiu !== 'curl'"><span class="c-comment"># Obtenir totes les begudes actives</span>
 <span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/?activo=true'</span>
 
-<span class="c-comment"># Beguda aleatòria ✨</span>
+<span class="c-comment"># Beguda aleatòria </span>
 <span class="c-blue">curl</span> <span class="c-str">'https://bbt-760x.onrender.com/bebidas/random'</span>
 
 <span class="c-comment"># Filtrar per categoria</span>
