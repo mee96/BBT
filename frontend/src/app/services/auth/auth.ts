@@ -1,7 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom } from 'rxjs';
 import { User } from '@angular/fire/auth';
+import { UsuarioAiven } from '../../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +11,26 @@ import { User } from '@angular/fire/auth';
 export class AuthService {
 
   private auth: Auth = inject(Auth);
+  private http: HttpClient = inject(HttpClient);
+  private readonly apiUrl: string = 'https://bbt-760x.onrender.com/';
 
   readonly user$: Observable<User | null> = user(this.auth);
 
-  register(email: string, password: string): Promise<void> {
-    return createUserWithEmailAndPassword(this.auth, email, password)
-      .then(() => {});
+  async register(email: string, password: string, usuariDades: Omit<UsuarioAiven, 'firebase_uid' | 'email'>): Promise<void> {
+    const credential = await createUserWithEmailAndPassword(this.auth, email, password);
+    const firebase_uid = credential.user.uid;
+
+    await firstValueFrom(
+      this.http.post(`${this.apiUrl}usuarios/`, {
+        firebase_uid,
+        email,
+        ...usuariDades
+      })
+    );
   }
 
-  login(email: string, password: string): Promise<void> {
-    return signInWithEmailAndPassword(this.auth, email, password)
-      .then(() => {});
+  async login(email: string, password: string): Promise<void> {
+    await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   logout(): Promise<void> {
@@ -28,5 +39,9 @@ export class AuthService {
 
   getCurrentUser(): User | null {
     return this.auth.currentUser;
+  }
+
+  getUsuariAiven(firebase_uid: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}usuarios/firebase/${firebase_uid}`);
   }
 }

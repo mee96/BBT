@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth/auth';
 export class RegisterComponent {
 
   nom: string = '';
+  nombre_usuario: string = '';
   email: string = '';
   password: string = '';
   passwordRepeat: string = '';
@@ -33,7 +34,10 @@ export class RegisterComponent {
     this.loading = true;
     this.error = null;
     try {
-      await this.authService.register(this.email, this.password);
+      await this.authService.register(this.email, this.password, {
+        nombre: this.nom,
+        nombre_usuario: this.nombre_usuario,
+      });
       this.router.navigate(['/bebidas']);
     } catch (err: any) {
       this.error = 'Error al registrar-se. Prova un altre email.';
