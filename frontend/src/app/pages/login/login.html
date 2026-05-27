@@ -1,0 +1,43 @@
+<main class="login-page">
+
+  <div class="login-container">
+
+    <img src="assets/pusheen.png" alt="pusheen" class="deco-img" />
+
+    <div class="pbox">
+      <div class="titlebar">
+        <span class="tb-dot" style="background:#ff5f57"></span>
+        <span class="tb-dot" style="background:#febc2e"></span>
+        <span class="tb-dot" style="background:#28c840"></span>
+        <span class="tb-title">login.exe</span>
+      </div>
+      <div class="form-inner">
+
+        @if (error) {
+          <p class="error">{{ error }}</p>
+        }
+
+        <div class="field">
+          <label>EMAIL</label>
+          <input type="email" [(ngModel)]="email" placeholder="tu@email.com"/>
+        </div>
+
+        <div class="field">
+          <label>CONTRASENYA</label>
+          <input type="password" [(ngModel)]="password" placeholder="••••••••"/>
+        </div>
+
+        <button class="btn-submit" (click)="login()" [disabled]="loading">
+          {{ loading ? 'carregant...' : 'entrar →' }}
+        </button>
+
+        <p class="link-text">
+          No tens compte? <a routerLink="/register">registra't</a>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+</main>

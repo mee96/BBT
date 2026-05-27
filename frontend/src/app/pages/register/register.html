@@ -1,0 +1,53 @@
+<main class="register-page">
+
+  <div class="register-container">
+
+    <img src="assets/cat.png" alt="cat bbt" class="deco-img" />
+
+    <div class="pbox pbox-pink">
+      <div class="titlebar titlebar-pink">
+        <span class="tb-dot" style="background:#ff5f57"></span>
+        <span class="tb-dot" style="background:#febc2e"></span>
+        <span class="tb-dot" style="background:#28c840"></span>
+        <span class="tb-title tb-title-pink">register.exe</span>
+      </div>
+      <div class="form-inner">
+
+        @if (error) {
+          <p class="error">{{ error }}</p>
+        }
+
+        <div class="field">
+          <label>NOM</label>
+          <input type="text" [(ngModel)]="nom" placeholder="el teu nom"/>
+        </div>
+
+        <div class="field">
+          <label>EMAIL</label>
+          <input type="email" [(ngModel)]="email" placeholder="tu@email.com"/>
+        </div>
+
+        <div class="field">
+          <label>CONTRASENYA</label>
+          <input type="password" [(ngModel)]="password" placeholder="••••••••"/>
+        </div>
+
+        <div class="field">
+          <label>REPETEIX CONTRASENYA</label>
+          <input type="password" [(ngModel)]="passwordRepeat" placeholder="••••••••"/>
+        </div>
+
+        <button class="btn-submit" (click)="register()" [disabled]="loading">
+          {{ loading ? 'carregant...' : 'registrar-se →' }}
+        </button>
+
+        <p class="link-text">
+          Ja tens compte? <a routerLink="/login">inicia sessió</a>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+</main>
