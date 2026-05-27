@@ -115,6 +115,10 @@
   cursor: pointer;
   box-shadow: 2px 2px 0 #b8a0d0;
   text-decoration: none;
+   &:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #b8a0d0;
+  }
 }
 
 // ─── LAYOUT ROWS ─────────────────────────────────────────────────────────────
