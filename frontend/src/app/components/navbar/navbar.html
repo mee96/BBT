@@ -1,1 +1,18 @@
-<p>navbar works!</p>
+<nav class="nav">
+  <span class="nav-logo">🧋 <span>BubbleTea</span>API</span>
+  <div class="nav-right">
+    <a class="nav-link" routerLink="/" routerLinkActive="actiu" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+
+    @if (user$ | async; as user) {
+      <a class="nav-link nav-user" routerLink="/user">
+        <i class="fa-solid fa-circle-user"></i>
+      </a>
+    } @else {
+      <a class="nav-link" routerLink="/login">
+        <i class="fa-regular fa-circle-user"></i>
+      </a>
+    }
+
+    <span class="badge-v">v1.0.0</span>
+  </div>
+</nav>
