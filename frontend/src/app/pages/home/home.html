@@ -52,10 +52,10 @@
             <span class="tb-title">stats.exe</span>
           </div>
           <div class="stats-row">
-            <div class="stat-item"><p class="stat-n">17</p><p class="stat-l">bebidas</p></div>
-            <div class="stat-item"><p class="stat-n">7</p><p class="stat-l">cats</p></div>
-            <div class="stat-item"><p class="stat-n">8</p><p class="stat-l">tops</p></div>
-            <div class="stat-item"><p class="stat-n">11</p><p class="stat-l">ep</p></div>
+            <div class="stat-item"><p class="stat-n">55</p><p class="stat-l">bebidas</p></div>
+            <div class="stat-item"><p class="stat-n">7</p><p class="stat-l">categorias</p></div>
+            <div class="stat-item"><p class="stat-n">8</p><p class="stat-l">toppings</p></div>
+            <div class="stat-item"><p class="stat-n">11</p><p class="stat-l">endpoints</p></div>
           </div>
         </div>
       </div>
@@ -114,26 +114,48 @@
         <img src="assets/puddin.png" alt="" aria-hidden="true" class="puddin-deco"/>
       </section>
 
-      <section class="section" style="padding-top: 60px;">
-        <p class="sec-title">✦ ENDPOINTS</p>
-        <div class="pbox">
-          <div class="titlebar">
-            <span class="tb-dot" style="background:#f4a0c0"></span>
-            <span class="tb-dot" style="background:#f9d070"></span>
-            <span class="tb-dot" style="background:#a0d8a0"></span>
-            <span class="tb-title">endpoints.txt</span>
-          </div>
-          <div class="endpoints">
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas <span class="ep-params">?activo= &amp;vegano= &amp;categoria_id=</span></span><span class="ep-tag">bebidas</span></div>
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bebidas</span></div>
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/bebidas/<span class="ep-params">random</span> ✨</span><span class="ep-tag">bebidas</span></div>
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/categorias</span><span class="ep-tag">cats</span></div>
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/toppings</span><span class="ep-tag">tops</span></div>
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/alergenos</span><span class="ep-tag">alerg</span></div>
-            <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos <span class="ep-params">?usuario_id= &amp;estado=</span></span><span class="ep-tag">pedidos</span></div>
-          </div>
-        </div>
-      </section>
+      <section class="section">
+  <p class="sec-title">✦ ENDPOINTS</p>
+  <div class="pbox">
+    <div class="titlebar">
+      <span class="tb-dot" style="background:#f4a0c0"></span>
+      <span class="tb-dot" style="background:#f9d070"></span>
+      <span class="tb-dot" style="background:#a0d8a0"></span>
+      <span class="tb-title">endpoints.txt</span>
+    </div>
+    <div class="endpoints-scroll">
+
+      <p class="ep-group">BubbleTeas</p>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas <span class="ep-params">?activo= &amp;vegano= &amp;categoria_id=</span></span><span class="ep-tag">bbt</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bbt</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/bubbleteas/<span class="ep-params">random</span> ✨</span><span class="ep-tag">bbt</span></div>
+      <div class="ep"><span class="method method-post">POST</span><span class="ep-path">/bubbleteas</span><span class="ep-tag">bbt</span></div>
+      <div class="ep"><span class="method method-put">PUT</span><span class="ep-path">/bubbleteas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bbt</span></div>
+      <div class="ep"><span class="method method-delete">DELETE</span><span class="ep-path">/bubbleteas/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">bbt</span></div>
+
+      <p class="ep-group">Categorias</p>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/categorias</span><span class="ep-tag">cats</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/categorias/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">cats</span></div>
+
+      <p class="ep-group">Toppings y Alérgenos</p>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/toppings</span><span class="ep-tag">tops</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/toppings/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">tops</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/alergenos</span><span class="ep-tag">alerg</span></div>
+
+      <p class="ep-group">Usuarios</p>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios</span><span class="ep-tag">users</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">users</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/usuarios/firebase/<span class="ep-params">&#123;uid&#125;</span></span><span class="ep-tag">users</span></div>
+      <div class="ep"><span class="method method-post">POST</span><span class="ep-path">/usuarios</span><span class="ep-tag">users</span></div>
+      <div class="ep"><span class="method method-put">PUT</span><span class="ep-path">/usuarios/firebase/<span class="ep-params">&#123;uid&#125;</span></span><span class="ep-tag">users</span></div>
+
+      <p class="ep-group">Pedidos</p>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos <span class="ep-params">?usuario_id= &amp;estado=</span></span><span class="ep-tag">pedidos</span></div>
+      <div class="ep"><span class="method">GET</span><span class="ep-path">/pedidos/<span class="ep-params">&#123;id&#125;</span></span><span class="ep-tag">pedidos</span></div>
+
+    </div>
+  </div>
+</section>
 
     </div>
 
