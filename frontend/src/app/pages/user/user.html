@@ -1,31 +1,108 @@
 <main class="user-page">
 
-  <div class="user-container">
+  @if (user$ | async; as user) {
+    <div class="user-layout">
 
-    <img src="assets/macaron.png" alt="macaron" class="deco-img" />
+      <!-- CAIXA USUARI -->
+      <div class="pbox user-card"
+        [style.background]="bbtDelDia.color"
+        [style.border-color]="bbtDelDia.borderColor"
+        [style.box-shadow]="'3px 3px 0 ' + bbtDelDia.borderColor">
 
-    <div class="pbox">
-      <div class="titlebar">
-        <span class="tb-dot" style="background:#ff5f57"></span>
-        <span class="tb-dot" style="background:#febc2e"></span>
-        <span class="tb-dot" style="background:#28c840"></span>
-        <span class="tb-title">user.exe</span>
-      </div>
-      <div class="user-inner">
+        <div class="titlebar"
+          [style.background]="bbtDelDia.titlebarColor"
+          [style.border-bottom-color]="bbtDelDia.borderColor">
+          <span class="tb-dot" style="background:#ff5f57"></span>
+          <span class="tb-dot" style="background:#febc2e"></span>
+          <span class="tb-dot" style="background:#28c840"></span>
+          <span class="tb-title" [style.color]="bbtDelDia.textColor">user.exe</span>
+        </div>
 
-        @if (user$ | async; as user) {
-          <div class="user-info">
-            <i class="fa-solid fa-circle-user user-icon"></i>
-            <p class="user-email">{{ user.email }}</p>
-          </div>
-          <button class="btn-logout" (click)="logout()">
-            tancar sessió →
-          </button>
-        }
+        <div class="user-inner">
 
-      </div>
+  <p class="user-hola" [style.color]="bbtDelDia.textColor">
+    Hola, {{ usuariAiven?.nombre || user.email }}! 🧋
+  </p>
+
+  @if (error) { <p class="error">{{ error }}</p> }
+  @if (success) { <p class="success">{{ success }}</p> }
+
+  @if (!editant) {
+    <div class="dades">
+      @if (usuariAiven?.nombre_usuario) {
+        <div class="dada">
+          <span class="dada-label" [style.color]="bbtDelDia.textColor">USUARI</span>
+          <span class="dada-valor">@{{ usuariAiven?.nombre_usuario }}</span>
+        </div>
+      }
+      @if (usuariAiven?.pais) {
+        <div class="dada">
+          <span class="dada-label" [style.color]="bbtDelDia.textColor">PAÍS</span>
+          <span class="dada-valor">{{ usuariAiven?.pais }}</span>
+        </div>
+      }
+      @if (usuariAiven?.ciudad) {
+        <div class="dada">
+          <span class="dada-label" [style.color]="bbtDelDia.textColor">CIUTAT</span>
+          <span class="dada-valor">{{ usuariAiven?.ciudad }}</span>
+        </div>
+      }
+      @if (usuariAiven?.telf) {
+        <div class="dada">
+          <span class="dada-label" [style.color]="bbtDelDia.textColor">TELÈFON</span>
+          <span class="dada-valor">{{ usuariAiven?.telf }}</span>
+        </div>
+      }
     </div>
+    <button class="btn-edit" [style.border-color]="bbtDelDia.borderColor" (click)="editant = true">✏️ editar perfil</button>
 
+  } @else {
+  <div class="fields">
+    <div class="field">
+      <label>NOM</label>
+      <input type="text" [(ngModel)]="editNom" placeholder="el teu nom"/>
+    </div>
+    <div class="field">
+      <label>NOM D'USUARI</label>
+      <input type="text" [(ngModel)]="editNombreUsuario" placeholder="@username"/>
+    </div>
+    <div class="field">
+      <label>PAÍS</label>
+      <input type="text" [(ngModel)]="editPais" placeholder="Espanya"/>
+    </div>
+    <div class="field">
+      <label>CIUTAT</label>
+      <input type="text" [(ngModel)]="editCiutat" placeholder="Barcelona"/>
+    </div>
+    <div class="field">
+      <label>DIRECCIÓ</label>
+      <input type="text" [(ngModel)]="editDireccio" placeholder="Carrer..."/>
+    </div>
+    <div class="field">
+      <label>TELÈFON</label>
+      <input type="text" [(ngModel)]="editTelf" placeholder="612345678"/>
+    </div>
   </div>
+  <div class="btn-row">
+    <button class="btn-cancel" (click)="editant = false">cancel·lar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="loading">
+      {{ loading ? 'guardant...' : 'guardar →' }}
+    </button>
+  </div>
+}
+  <button class="btn-logout" (click)="logout()">tancar sessió →</button>
+
+</div>
+      </div>
+
+      <!-- BBT DEL DIA -->
+      <div class="bbt-deco">
+        <p class="bbt-label" [style.color]="bbtDelDia.textColor">✦ BUBBLE TEA DEL DIA</p>
+        <img [src]="bbtDelDia.img" [alt]="bbtDelDia.nom" class="bbt-img"/>
+        <p class="bbt-nom" [style.color]="bbtDelDia.textColor">{{ bbtDelDia.nom }}</p>
+      </div>
+
+    </div>
+  }
 
 </main>

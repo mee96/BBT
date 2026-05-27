@@ -44,4 +44,9 @@ export class AuthService {
   getUsuariAiven(firebase_uid: string): Observable<any> {
     return this.http.get(`${this.apiUrl}usuarios/firebase/${firebase_uid}`);
   }
+
+  updateUsuariAiven(firebase_uid: string, dades: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}usuarios/firebase/${firebase_uid}`, dades);
 }
+}
+
