@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { BubbleteaService, BubbleTea } from '../../services/bubbletea';
+import { AuthService } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -15,21 +16,31 @@ export class HomeComponent implements OnInit {
   bebidaRandom: BubbleTea | null = null;
   loading: boolean = false;
   error: string | null = null;
+  tabActiu: string = 'js';
 
   constructor(
     private bubbleteaService: BubbleteaService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.carregarRandom();
   }
 
-  tabActiu: string = 'js';
+  explorarBegudes(): void {
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      this.router.navigate(['/bebidas']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
 
-copiarUrl(): void {
-  navigator.clipboard.writeText('https://bbt-760x.onrender.com');
-}
+  copiarUrl(): void {
+    navigator.clipboard.writeText('https://bbt-760x.onrender.com');
+  }
 
   carregarRandom(): void {
     this.loading = true;
@@ -50,4 +61,3 @@ copiarUrl(): void {
     });
   }
 }
-

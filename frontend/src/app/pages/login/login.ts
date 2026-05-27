@@ -28,7 +28,7 @@ export class LoginComponent {
     this.error = null;
     try {
       await this.authService.login(this.email, this.password);
-      this.router.navigate(['/bebidas']);
+      this.router.navigate(['/']);
     } catch (err: any) {
       this.error = 'Email o contrasenya incorrectes';
       this.loading = false;

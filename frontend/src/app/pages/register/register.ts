@@ -38,7 +38,7 @@ export class RegisterComponent {
         nombre: this.nom,
         nombre_usuario: this.nombre_usuario,
       });
-      this.router.navigate(['/bebidas']);
+      this.router.navigate(['/']);
     } catch (err: any) {
       this.error = 'Error al registrar-se. Prova un altre email.';
       this.loading = false;
