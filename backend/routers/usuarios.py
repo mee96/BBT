@@ -13,6 +13,14 @@ class UsuarioCreate(BaseModel):
     direccion: Optional[str] = None
     telf: Optional[int] = None
 
+class UsuarioUpdate(BaseModel):
+    nombre: Optional[str] = None
+    nombre_usuario: Optional[str] = None
+    pais: Optional[str] = None
+    ciudad: Optional[str] = None
+    direccion: Optional[str] = None
+    telf: Optional[int] = None
+
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
 
@@ -75,14 +83,7 @@ def create_usuario(usuario: UsuarioCreate):
         return {"ok": True, "result": usuario}
     except Exception as e:
         return {"ok": False, "error": str(e)}
-    
-    class UsuarioUpdate(BaseModel):
-    nombre: Optional[str] = None
-    nombre_usuario: Optional[str] = None
-    pais: Optional[str] = None
-    ciudad: Optional[str] = None
-    direccion: Optional[str] = None
-    telf: Optional[int] = None
+
 
 @router.put("/firebase/{firebase_uid}")
 def update_usuario(firebase_uid: str, usuario: UsuarioUpdate):
