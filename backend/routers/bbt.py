@@ -1,172 +1,165 @@
-from fastapi import APIRouter, Query
-from typing import Optional
 import random
-from models.models import BubbleTeaCreate
-from utils.db_conection import get_connection
+from typing import Optional
+
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session, joinedload
+
+from database.connection import get_db
+from models import BubbleTea, BubbleTeaAlergeno
+from schemas import BubbleTeaCreate, BubbleTeaUpdate
 
 router = APIRouter(prefix="/bubbleteas", tags=["BubbleTeas"])
 
-BASE_QUERY = """
-    SELECT 
-        b.bubbletea_id,
-        b.nombre,
-        b.tipo_bubbletea,
-        b.descripcion,
-        b.categoria_id,
-        b.disponible_caliente,
-        b.es_vegano,
-        b.tiene_cafeina,
-        b.stock,
-        b.active AS activo,
-        bt_m.precio AS precio_M,
-        bt_l.precio AS precio_L,
-        GROUP_CONCAT(a.nombre SEPARATOR ',') AS alergenos
-    FROM bubbletea b
-    LEFT JOIN bubbletea_tamano bt_m ON b.bubbletea_id = bt_m.bubbletea_id AND bt_m.tamano_id = 1
-    LEFT JOIN bubbletea_tamano bt_l ON b.bubbletea_id = bt_l.bubbletea_id AND bt_l.tamano_id = 2
-    LEFT JOIN bubbletea_alergeno ba ON b.bubbletea_id = ba.bubbletea_id
-    LEFT JOIN alergenos a ON ba.alergeno_id = a.alergeno_id
-"""
 
-def parse_alergenos(rows: list) -> list:
-    for row in rows:
-        if row["alergenos"]:
-            row["alergenos"] = row["alergenos"].split(",")
-        else:
-            row["alergenos"] = []
-    return rows
+def _serialize(b: BubbleTea) -> dict:
+    precio_m = None
+    precio_l = None
+    for bt in b.tamanos:
+        if bt.tamano_id == 1:
+            precio_m = float(bt.precio)
+        elif bt.tamano_id == 2:
+            precio_l = float(bt.precio)
 
-def parse_alergeno(row: dict) -> dict:
-    if row and row["alergenos"]:
-        row["alergenos"] = row["alergenos"].split(",")
-    elif row:
-        row["alergenos"] = []
-    return row
+    alergenos = [ba.alergeno.nombre for ba in b.alergenos if ba.alergeno is not None]
+
+    return {
+        "bubbletea_id": b.bubbletea_id,
+        "nombre": b.nombre,
+        "tipo_bubbletea": b.tipo_bubbletea,
+        "descripcion": b.descripcion,
+        "categoria_id": b.categoria_id,
+        "disponible_caliente": b.disponible_caliente,
+        "es_vegano": b.es_vegano,
+        "tiene_cafeina": b.tiene_cafeina,
+        "stock": b.stock,
+        "activo": b.active,
+        "precio_M": precio_m,
+        "precio_L": precio_l,
+        "alergenos": alergenos,
+    }
+
+
+def _options():
+    return (
+        joinedload(BubbleTea.tamanos),
+        joinedload(BubbleTea.alergenos).joinedload(BubbleTeaAlergeno.alergeno),
+    )
 
 
 @router.get("/random")
-def get_bubble_tea_random():
+def get_bubble_tea_random(db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                BASE_QUERY + " WHERE b.active = TRUE GROUP BY b.bubbletea_id"
-            )
-            rows = cur.fetchall()
+        rows = (
+            db.query(BubbleTea)
+            .options(*_options())
+            .filter(BubbleTea.active.is_(True))
+            .all()
+        )
         if not rows:
             return {"ok": False, "error": "No hi ha begudes actives"}
-        rows = parse_alergenos(rows)
-        return {"ok": True, "result": random.choice(rows)}
+        return {"ok": True, "result": _serialize(random.choice(rows))}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.get("/")
 def get_bubble_teas(
-    categoria_id: Optional[int]  = Query(None, description="Filtrar per categoria"),
-    vegano:       Optional[bool] = Query(None, description="Només vegans"),
-    caliente:     Optional[bool] = Query(None, description="Disponibles en calent"),
-    activo:       Optional[bool] = Query(None, description="True = actives | False = inactives"),
+    categoria_id: Optional[int] = Query(None, description="Filtrar per categoria"),
+    vegano: Optional[bool] = Query(None, description="Només vegans"),
+    caliente: Optional[bool] = Query(None, description="Disponibles en calent"),
+    activo: Optional[bool] = Query(None, description="True = actives | False = inactives"),
+    db: Session = Depends(get_db),
 ):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            query = BASE_QUERY + " WHERE 1=1"
-            params = []
+        q = db.query(BubbleTea).options(*_options())
+        if categoria_id is not None:
+            q = q.filter(BubbleTea.categoria_id == categoria_id)
+        if vegano is not None:
+            q = q.filter(BubbleTea.es_vegano.is_(vegano))
+        if caliente is not None:
+            q = q.filter(BubbleTea.disponible_caliente.is_(caliente))
+        if activo is not None:
+            q = q.filter(BubbleTea.active.is_(activo))
 
-            if categoria_id is not None:
-                query += " AND b.categoria_id = %s"
-                params.append(categoria_id)
-            if vegano is not None:
-                query += " AND b.es_vegano = %s"
-                params.append(vegano)
-            if caliente is not None:
-                query += " AND b.disponible_caliente = %s"
-                params.append(caliente)
-            if activo is not None:
-                query += " AND b.active = %s"
-                params.append(activo)
-
-            query += " GROUP BY b.bubbletea_id"
-
-            cur.execute(query, params)
-            rows = cur.fetchall()
-        rows = parse_alergenos(rows)
-        return {"ok": True, "result": rows}
+        rows = q.all()
+        return {"ok": True, "result": [_serialize(b) for b in rows]}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.get("/{bubbletea_id}")
-def get_bubble_tea_by_id(bubbletea_id: int):
+def get_bubble_tea_by_id(bubbletea_id: int, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                BASE_QUERY + " WHERE b.bubbletea_id = %s GROUP BY b.bubbletea_id",
-                (bubbletea_id,)
-            )
-            row = cur.fetchone()
-        row = parse_alergeno(row)
-        return {"ok": True, "result": row}
+        b = (
+            db.query(BubbleTea)
+            .options(*_options())
+            .filter(BubbleTea.bubbletea_id == bubbletea_id)
+            .first()
+        )
+        return {"ok": True, "result": _serialize(b) if b else None}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.post("/")
-def create_bubble_tea(bubble_tea: BubbleTeaCreate):
+def create_bubble_tea(bubble_tea: BubbleTeaCreate, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                """INSERT INTO bubbletea 
-                (nombre, tipo_bubbletea, descripcion, categoria_id,
-                disponible_caliente, es_vegano, tiene_cafeina, stock, active)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                (bubble_tea.nombre, bubble_tea.tipo_bubbletea,
-                bubble_tea.descripcion, bubble_tea.categoria_id,
-                bubble_tea.disponible_caliente, bubble_tea.es_vegano,
-                bubble_tea.tiene_cafeina, bubble_tea.stock, bubble_tea.active)
-            )
-            conn.commit()
-        return {"ok": True, "result": bubble_tea}
+        nuevo = BubbleTea(
+            nombre=bubble_tea.nombre,
+            tipo_bubbletea=bubble_tea.tipo_bubbletea,
+            descripcion=bubble_tea.descripcion,
+            categoria_id=bubble_tea.categoria_id,
+            disponible_caliente=bubble_tea.disponible_caliente,
+            es_vegano=bubble_tea.es_vegano,
+            tiene_cafeina=bubble_tea.tiene_cafeina,
+            stock=bubble_tea.stock,
+            active=bubble_tea.active,
+        )
+        db.add(nuevo)
+        db.commit()
+        db.refresh(nuevo)
+        return {"ok": True, "result": _serialize(nuevo)}
     except Exception as e:
+        db.rollback()
         return {"ok": False, "error": str(e)}
 
 
 @router.put("/{bubbletea_id}")
-def update_bubble_tea(bubbletea_id: int, bubble_tea: BubbleTeaCreate):
+def update_bubble_tea(
+    bubbletea_id: int, bubble_tea: BubbleTeaUpdate, db: Session = Depends(get_db)
+):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                """UPDATE bubbletea SET 
-                nombre = %s, tipo_bubbletea = %s, descripcion = %s,
-                categoria_id = %s, disponible_caliente = %s,
-                es_vegano = %s, tiene_cafeina = %s, stock = %s, active = %s
-                WHERE bubbletea_id = %s""",
-                (bubble_tea.nombre, bubble_tea.tipo_bubbletea,
-                bubble_tea.descripcion, bubble_tea.categoria_id,
-                bubble_tea.disponible_caliente, bubble_tea.es_vegano,
-                bubble_tea.tiene_cafeina, bubble_tea.stock,
-                bubble_tea.active, bubbletea_id)
-            )
-            conn.commit()
-        return {"ok": True, "result": bubble_tea}
+        b = db.query(BubbleTea).filter(BubbleTea.bubbletea_id == bubbletea_id).first()
+        if b is None:
+            return {"ok": False, "error": "BubbleTea no trobat"}
+
+        b.nombre = bubble_tea.nombre
+        b.tipo_bubbletea = bubble_tea.tipo_bubbletea
+        b.descripcion = bubble_tea.descripcion
+        b.categoria_id = bubble_tea.categoria_id
+        b.disponible_caliente = bubble_tea.disponible_caliente
+        b.es_vegano = bubble_tea.es_vegano
+        b.tiene_cafeina = bubble_tea.tiene_cafeina
+        b.stock = bubble_tea.stock
+        b.active = bubble_tea.active
+
+        db.commit()
+        db.refresh(b)
+        return {"ok": True, "result": _serialize(b)}
     except Exception as e:
+        db.rollback()
         return {"ok": False, "error": str(e)}
 
 
 @router.delete("/{bubbletea_id}")
-def delete_bubble_tea(bubbletea_id: int):
+def delete_bubble_tea(bubbletea_id: int, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                "UPDATE bubbletea SET active = FALSE WHERE bubbletea_id = %s",
-                (bubbletea_id,)
-            )
-            conn.commit()
+        b = db.query(BubbleTea).filter(BubbleTea.bubbletea_id == bubbletea_id).first()
+        if b is None:
+            return {"ok": False, "error": "BubbleTea no trobat"}
+        b.active = False
+        db.commit()
         return {"ok": True}
     except Exception as e:
+        db.rollback()
         return {"ok": False, "error": str(e)}

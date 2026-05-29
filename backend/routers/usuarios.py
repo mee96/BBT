@@ -1,109 +1,93 @@
-from fastapi import APIRouter
-from utils.db_conection import get_connection
-from pydantic import BaseModel
-from typing import Optional
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
-class UsuarioCreate(BaseModel):
-    firebase_uid: str
-    nombre: str
-    nombre_usuario: str
-    email: str
-    pais: Optional[str] = None
-    ciudad: Optional[str] = None
-    direccion: Optional[str] = None
-    telf: Optional[int] = None
-
-class UsuarioUpdate(BaseModel):
-    nombre: Optional[str] = None
-    nombre_usuario: Optional[str] = None
-    pais: Optional[str] = None
-    ciudad: Optional[str] = None
-    direccion: Optional[str] = None
-    telf: Optional[int] = None
+from database.connection import get_db
+from models import Usuario
+from schemas import UsuarioCreate, UsuarioUpdate
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
 
+def _serialize(u: Usuario) -> dict:
+    return {
+        "usuario_id": u.usuario_id,
+        "firebase_uid": u.firebase_uid,
+        "nombre": u.nombre,
+        "nombre_usuario": u.nombre_usuario,
+        "email": u.email,
+        "pais": u.pais,
+        "ciudad": u.ciudad,
+        "direccion": u.direccion,
+        "telf": u.telf,
+    }
+
+
 @router.get("/")
-def get_usuarios():
+def get_usuarios(db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM usuario")
-            rows = cur.fetchall()
-        return {"ok": True, "result": rows}
+        rows = db.query(Usuario).all()
+        return {"ok": True, "result": [_serialize(u) for u in rows]}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.get("/{usuario_id}")
-def get_usuario(usuario_id: int):
+def get_usuario(usuario_id: int, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT * FROM usuario WHERE usuario_id = %s",
-                (usuario_id,)
-            )
-            row = cur.fetchone()
-        return {"ok": True, "result": row}
+        u = db.query(Usuario).filter(Usuario.usuario_id == usuario_id).first()
+        return {"ok": True, "result": _serialize(u) if u else None}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.get("/firebase/{firebase_uid}")
-def get_usuario_by_firebase(firebase_uid: str):
+def get_usuario_by_firebase(firebase_uid: str, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT * FROM usuario WHERE firebase_uid = %s",
-                (firebase_uid,)
-            )
-            row = cur.fetchone()
-        return {"ok": True, "result": row}
+        u = db.query(Usuario).filter(Usuario.firebase_uid == firebase_uid).first()
+        return {"ok": True, "result": _serialize(u) if u else None}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.post("/")
-def create_usuario(usuario: UsuarioCreate):
+def create_usuario(usuario: UsuarioCreate, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                """INSERT INTO usuario 
-                (firebase_uid, nombre, nombre_usuario, email, pais, ciudad, direccion, telf)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-                (usuario.firebase_uid, usuario.nombre, usuario.nombre_usuario,
-                usuario.email, usuario.pais, usuario.ciudad,
-                usuario.direccion, usuario.telf)
-            )
-            conn.commit()
-        return {"ok": True, "result": usuario}
+        nuevo = Usuario(
+            firebase_uid=usuario.firebase_uid,
+            nombre=usuario.nombre,
+            nombre_usuario=usuario.nombre_usuario,
+            email=usuario.email,
+            pais=usuario.pais,
+            ciudad=usuario.ciudad,
+            direccion=usuario.direccion,
+            telf=usuario.telf,
+        )
+        db.add(nuevo)
+        db.commit()
+        db.refresh(nuevo)
+        return {"ok": True, "result": _serialize(nuevo)}
     except Exception as e:
+        db.rollback()
         return {"ok": False, "error": str(e)}
 
 
 @router.put("/firebase/{firebase_uid}")
-def update_usuario(firebase_uid: str, usuario: UsuarioUpdate):
+def update_usuario(
+    firebase_uid: str, usuario: UsuarioUpdate, db: Session = Depends(get_db)
+):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                """UPDATE usuario SET
-                nombre = COALESCE(%s, nombre),
-                nombre_usuario = COALESCE(%s, nombre_usuario),
-                pais = COALESCE(%s, pais),
-                ciudad = COALESCE(%s, ciudad),
-                direccion = COALESCE(%s, direccion),
-                telf = COALESCE(%s, telf)
-                WHERE firebase_uid = %s""",
-                (usuario.nombre, usuario.nombre_usuario,
-                usuario.pais, usuario.ciudad,
-                usuario.direccion, usuario.telf, firebase_uid)
-            )
-            conn.commit()
-        return {"ok": True}
+        u = db.query(Usuario).filter(Usuario.firebase_uid == firebase_uid).first()
+        if u is None:
+            return {"ok": False, "error": "Usuario no trobat"}
+
+        data = usuario.model_dump(exclude_unset=True)
+        for key, value in data.items():
+            if value is not None:
+                setattr(u, key, value)
+
+        db.commit()
+        db.refresh(u)
+        return {"ok": True, "result": _serialize(u)}
     except Exception as e:
+        db.rollback()
         return {"ok": False, "error": str(e)}

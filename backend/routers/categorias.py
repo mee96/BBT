@@ -1,31 +1,44 @@
-from fastapi import APIRouter
-from utils.db_conection import get_connection
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from database.connection import get_db
+from models import Categoria
 
 router = APIRouter(prefix="/categorias", tags=["Categorías"])
 
 
 @router.get("/")
-def get_categorias():
+def get_categorias(db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM categoria")
-            rows = cur.fetchall()
-        return {"ok": True, "result": rows}
+        rows = db.query(Categoria).all()
+        return {
+            "ok": True,
+            "result": [
+                {
+                    "categoria_id": c.categoria_id,
+                    "nombre": c.nombre,
+                    "nombre_zh": c.nombre_zh,
+                }
+                for c in rows
+            ],
+        }
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
 
 @router.get("/{categoria_id}")
-def get_categoria(categoria_id: int):
+def get_categoria(categoria_id: int, db: Session = Depends(get_db)):
     try:
-        conn = get_connection()
-        with conn.cursor() as cur:
-            cur.execute(
-                "SELECT * FROM categoria WHERE categoria_id = %s",
-                (categoria_id,)
-            )
-            row = cur.fetchone()
-        return {"ok": True, "result": row}
+        c = db.query(Categoria).filter(Categoria.categoria_id == categoria_id).first()
+        if c is None:
+            return {"ok": True, "result": None}
+        return {
+            "ok": True,
+            "result": {
+                "categoria_id": c.categoria_id,
+                "nombre": c.nombre,
+                "nombre_zh": c.nombre_zh,
+            },
+        }
     except Exception as e:
         return {"ok": False, "error": str(e)}
