@@ -339,6 +339,44 @@ INSERT INTO bubbletea_alergeno (bubbletea_id, alergeno_id) VALUES
   (10, 5),
   (17, 5),
   (18, 5);
+  
+  -- Relació bubbletea_alergeno
+-- Làctic=1, Gluten=2, Soja=3, Frutos secos=4, Cafeína=5
+
+INSERT INTO bubbletea_alergeno (bubbletea_id, alergeno_id) VALUES
+-- Té con Leche Clásico: Làctic + Cafeína
+(1, 1), (1, 5),
+-- Té con Leche y Jazmín: Làctic + Cafeína
+(2, 1), (2, 5),
+-- Leche sabor a Taro: Làctic
+(3, 1),
+-- 3 Hermanos con Leche Fresca: Làctic
+(4, 1),
+-- Té Verde con Sabor a Mango: Cafeína
+(5, 5),
+-- Té Negro con Sabor a Maracuyá: Cafeína
+(6, 5),
+-- Té Verde con Zumo de Limón Natural: Cafeína
+(7, 5),
+-- Té Negro con Zumo de Limón Natural: Cafeína
+(8, 5),
+-- Rey del Limón: Cafeína
+(9, 5),
+-- Té Verde con Yakult: Cafeína
+(10, 5),
+-- Mango Yakult: sense al·lèrgens
+-- Zumo de Limón Natural con Yakult: sense al·lèrgens
+-- Frappé de Taro: Làctic
+(13, 1),
+-- Frappé de Mango y Maracuyá: sense al·lèrgens
+-- Popping Marte: Cafeína
+(15, 5),
+-- Piruleta de Fresa: Làctic + Cafeína
+(16, 1), (16, 5),
+-- Té Negro: Cafeína
+(17, 5),
+-- Té Verde: Cafeína
+(18, 5);
 
 -- Usuario de ejemplo
 INSERT INTO usuario (nombre, nombre_usuario, email, contrasena, pais, ciudad, direccion, telf) VALUES
@@ -361,7 +399,35 @@ INSERT INTO pedido_linea_topping (linea_id, topping_id) VALUES
   (1, 1),  -- Perlas de Tapioca en línea 1
   (2, 6);  -- Perlas Popping Fresa en línea 2
 
+INSERT INTO bubbletea_alergeno (bubbletea_id, alergeno_id) VALUES
+-- Té con Leche (19, 20): Làctic ja el tenen ✅, Cafeína ja la tenen ✅
+
+-- Especials Here amb llet (21-27, 29-30): Làctic ja el tenen ✅
+-- Armonia Aguacate (28): vegà, sense làctic ✅ ja té Cafeína
+
+-- Ternura Rosa (26): no té Làctic ni Cafeína encara
+(26, 1),
+
+-- Bubble Tea amb llet (31, 32, 33, 34): Làctic ja el tenen ✅
+-- Brulee Bobo (35): Làctic falta
+(35, 1),
+-- Jalea de Hierba (36): vegà ✅
+
+-- Brown Sugar (37, 38, 39): tenen Cafeína ✅, afegim Làctic
+(37, 1),
+(38, 1),
+(39, 1),
+
+-- Mousse (45-55): tenen Làctic ✅, afegim Cafeína als que no en tenen
+(54, 1), (54, 5),
+(55, 1), (55, 5);
+
+
+SELECT bubbletea_id, nombre FROM bubbletea ORDER BY bubbletea_id;
+SELECT * FROM alergenos;
+SELECT * FROM bubbletea_alergeno;
+
 -- Verificación final
 SHOW TABLES;
 
-ALTER TABLE bubbletea ADD COLUMN active BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE usuario ADD COLUMN firebase_uid VARCHAR(128) UNIQUE;
