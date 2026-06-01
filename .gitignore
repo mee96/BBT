@@ -5,3 +5,8 @@ __pycache__/
 node_modules/
 *.pyc
 .angular/
+secrets/
+
+# Credencials de Firebase Admin (service account) — mai al repo
+*serviceAccount*.json
+firebase-adminsdk-*.json

@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from auth import verify_firebase_token
 from routers import bbt, categorias, toppings, usuarios, pedidos
 
 app = FastAPI(
@@ -16,12 +18,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Catàleg públic (lectura lliure)
 app.include_router(bbt.router)
-
 app.include_router(categorias.router)
 app.include_router(toppings.router)
-app.include_router(usuarios.router)
-app.include_router(pedidos.router)
+
+# Dades sensibles: tot el router requereix token de Firebase
+app.include_router(usuarios.router, dependencies=[Depends(verify_firebase_token)])
+app.include_router(pedidos.router, dependencies=[Depends(verify_firebase_token)])
 
 @app.get("/", tags=["Root"])
 def root() -> dict[str, object]:

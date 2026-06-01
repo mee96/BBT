@@ -4,6 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session, joinedload
 
+from auth import verify_firebase_token
 from database.connection import get_db
 from models import BubbleTea, BubbleTeaAlergeno
 from schemas import BubbleTeaCreate, BubbleTeaUpdate
@@ -101,7 +102,7 @@ def get_bubble_tea_by_id(bubbletea_id: int, db: Session = Depends(get_db)):
         return {"ok": False, "error": str(e)}
 
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(verify_firebase_token)])
 def create_bubble_tea(bubble_tea: BubbleTeaCreate, db: Session = Depends(get_db)):
     try:
         nuevo = BubbleTea(
@@ -124,7 +125,7 @@ def create_bubble_tea(bubble_tea: BubbleTeaCreate, db: Session = Depends(get_db)
         return {"ok": False, "error": str(e)}
 
 
-@router.put("/{bubbletea_id}")
+@router.put("/{bubbletea_id}", dependencies=[Depends(verify_firebase_token)])
 def update_bubble_tea(
     bubbletea_id: int, bubble_tea: BubbleTeaUpdate, db: Session = Depends(get_db)
 ):
@@ -151,7 +152,7 @@ def update_bubble_tea(
         return {"ok": False, "error": str(e)}
 
 
-@router.delete("/{bubbletea_id}")
+@router.delete("/{bubbletea_id}", dependencies=[Depends(verify_firebase_token)])
 def delete_bubble_tea(bubbletea_id: int, db: Session = Depends(get_db)):
     try:
         b = db.query(BubbleTea).filter(BubbleTea.bubbletea_id == bubbletea_id).first()
