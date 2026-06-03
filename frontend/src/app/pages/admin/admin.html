@@ -1,0 +1,115 @@
+<main class="admin-page">
+
+  <div class="admin-container">
+
+    <div class="admin-header">
+      <p class="sec-title">✦ ADMIN PANEL</p>
+      <button class="btn-primary" (click)="nouFormulari()">+ nova beguda</button>
+    </div>
+
+    @if (error()) { <p class="error">{{ error() }}</p> }
+    @if (success()) { <p class="success">{{ success() }}</p> }
+
+    @if (mostrarFormulari()) {
+      <div class="pbox form-box">
+        <div class="titlebar">
+          <span class="tb-dot" style="background:#ff5f57"></span>
+          <span class="tb-dot" style="background:#febc2e"></span>
+          <span class="tb-dot" style="background:#28c840"></span>
+          <span class="tb-title">{{ editantId() ? 'editar_beguda.exe' : 'nova_beguda.exe' }}</span>
+        </div>
+        <div class="form-inner">
+          <div class="form-grid">
+            <div class="field">
+              <label>NOM</label>
+              <input type="text" [(ngModel)]="form.nombre" placeholder="nom de la beguda"/>
+            </div>
+            <div class="field field-full">
+              <label>DESCRIPCIÓ</label>
+              <input type="text" [(ngModel)]="form.descripcion" placeholder="descripció..."/>
+            </div>
+            <div class="field">
+              <label>CATEGORIA</label>
+              <select [(ngModel)]="form.categoria_id">
+                <option [value]="null">-- selecciona --</option>
+                @for (cat of categorias(); track cat.categoria_id) {
+                  <option [value]="cat.categoria_id">{{ cat.nombre }}</option>
+                }
+              </select>
+            </div>
+            <div class="field">
+              <label>STOCK</label>
+              <input type="number" [(ngModel)]="form.stock" placeholder="0"/>
+            </div>
+          </div>
+
+          <div class="checkboxes">
+            <label class="checkbox-item">
+              <input type="checkbox" [(ngModel)]="form.es_vegano"/>
+              <span>🌱 Vegà</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" [(ngModel)]="form.tiene_cafeina"/>
+              <span>☕ Cafeïna</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" [(ngModel)]="form.disponible_caliente"/>
+              <span>🔥 Calent</span>
+            </label>
+          </div>
+
+          <div class="form-btns">
+            <button class="btn-cancel" (click)="cancelar()">cancel·lar</button>
+            <button class="btn-primary" (click)="guardar()">
+              {{ editantId() ? 'actualitzar →' : 'crear →' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (loading()) {
+      <p class="loading">Carregant... 🧋</p>
+    } @else {
+      <div class="pbox taula-box">
+        <div class="titlebar">
+          <span class="tb-dot" style="background:#f4a0c0"></span>
+          <span class="tb-dot" style="background:#f9d070"></span>
+          <span class="tb-dot" style="background:#a0d8a0"></span>
+          <span class="tb-title">begudes.txt</span>
+        </div>
+        <div class="taula-scroll">
+          <table class="taula">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NOM</th>
+                <th>TIPUS</th>
+                <th>VEGÀ</th>
+                <th>ACTIVA</th>
+                <th>ACCIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (bebida of bebidas(); track bebida.bubbletea_id) {
+                <tr>
+                  <td>{{ bebida.bubbletea_id }}</td>
+                  <td>{{ bebida.nombre }}</td>
+                  <td>{{ bebida.tipo_bubbletea }}</td>
+                  <td>{{ bebida.es_vegano ? '🌱' : '—' }}</td>
+                  <td>{{ bebida.activo ? '✅' : '❌' }}</td>
+                  <td class="accions">
+                    <button class="btn-edit" (click)="editarBebida(bebida)">✏️</button>
+                    <button class="btn-delete" (click)="eliminar(bebida.bubbletea_id)">🗑️</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+  </div>
+
+</main>

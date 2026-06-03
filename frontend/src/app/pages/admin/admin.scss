@@ -1,0 +1,218 @@
+.admin-page {
+  padding: 24px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sec-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #7b4fa6;
+}
+
+.pbox {
+  background: #f0eaf8;
+  border: 2px solid #b8a0d0;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 #b8a0d0;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-bottom: 1.5px solid #b8a0d0;
+  background: #e0d0f0;
+  border-radius: 6px 6px 0 0;
+}
+
+.tb-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+.tb-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #7b4fa6;
+  flex: 1;
+  text-align: center;
+}
+
+.form-inner {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field-full { grid-column: 1 / -1; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 5px;
+    color: #7b4fa6;
+  }
+
+  input, select {
+    background: #fff;
+    border: 2px solid #b8a0d0;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    color: #3a2d5a;
+    cursor: pointer;
+    &:focus { border-color: #9b7fc7; outline: none; }
+  }
+}
+
+.checkboxes {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #3a2d5a;
+  font-weight: 700;
+
+  input[type="checkbox"] { accent-color: #9b7fc7; width: 16px; height: 16px; }
+}
+
+.form-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.taula-scroll {
+  overflow-x: auto;
+  &::-webkit-scrollbar { height: 4px; }
+  &::-webkit-scrollbar-thumb { background: #e8a0c0; border-radius: 4px; }
+}
+
+.taula {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: #7b4fa6;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1.5px solid #d0c0e8;
+    background: #e8d8fc;
+  }
+
+  td {
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #3a2d5a;
+    border-bottom: 1px dashed #d0c0e8;
+  }
+
+  tr:hover td { background: #f8f0ff; }
+}
+
+.accions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-primary {
+  background: #9b7fc7;
+  color: #fff;
+  border: 2px solid #7b4fa6;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #7b4fa6;
+  &:hover { transform: translate(1px,1px); box-shadow: 1px 1px 0 #7b4fa6; }
+}
+
+.btn-cancel {
+  background: #f0eaf8;
+  color: #9b7fc7;
+  border: 2px solid #d0c0e8;
+  padding: 8px 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #d0c0e8;
+  &:hover { transform: translate(1px,1px); box-shadow: 1px 1px 0 #d0c0e8; }
+}
+
+.btn-edit {
+  background: #f0eaf8;
+  border: 1.5px solid #b8a0d0;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  &:hover { background: #e0d0f0; }
+}
+
+.btn-delete {
+  background: #fce8f0;
+  border: 1.5px solid #e8a0c0;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  &:hover { background: #f4c0d8; }
+}
+
+.loading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #9b7fc7;
+}
+
+.error {
+  background: #fce8f0;
+  border: 1.5px solid #e8a0c0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #a03060;
+  font-weight: 700;
+}
+
+.success {
+  background: #d8f0d8;
+  border: 1.5px solid #4a8a4a;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #2a5a2a;
+  font-weight: 700;
+}

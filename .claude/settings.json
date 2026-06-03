@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(python -c ' *)",
-      "Bash(python -m pip install -q httpx==0.28.1)"
+      "Bash(python -m pip install -q httpx==0.28.1)",
+      "Bash(grep -niA30 \"INSERT INTO .categoria\" database/bubbletea_completo.sql)",
+      "Bash(curl -s \"https://bbt-760x.onrender.com/categorias/\" --max-time 30)"
     ]
   }
 }
