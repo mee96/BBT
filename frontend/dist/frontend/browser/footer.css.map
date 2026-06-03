@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/footer/footer.scss"],
-  "sourcesContent": ["\r\n\r\n.footer {\r\n  background: #e8d8f4;\r\n  border-top: 2px solid #b8a0d0;\r\n  padding: 20px 24px;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  gap: 14px;\r\n}\r\n\r\n.footer-logo {\r\n  font-family: 'Press Start 2P', monospace;\r\n  font-size: 9px;\r\n  color: #7b4fa6;\r\n\r\n  span { color: #c77dcc; }\r\n}\r\n\r\n.footer-desc {\r\n  font-size: 11px;\r\n  color: #9b7fc7;\r\n  font-family: 'JetBrains Mono', monospace;\r\n  text-align: center;\r\n}\r\n\r\n.footer-links {\r\n  display: flex;\r\n  gap: 16px;\r\n  align-items: center;\r\n}\r\n\r\n.footer-link {\r\n  color: #7b4fa6;\r\n  text-decoration: none;\r\n  font-size: 22px;\r\n\r\n  &:hover {\r\n    color: #c77dcc;\r\n  }\r\n}\r\n\r\n.footer-sep {\r\n  color: #b8a0d0;\r\n  font-size: 10px;\r\n}\r\n\r\n.footer-copy {\r\n  font-family: 'Press Start 2P', monospace;\r\n  font-size: 6px;\r\n  color: #b8a0d0;\r\n}"],
-  "mappings": ";AAEA,CAAA;AACE,cAAA;AACA,cAAA,IAAA,MAAA;AACA,WAAA,KAAA;AACA,WAAA;AACA,kBAAA;AACA,eAAA;AACA,OAAA;;AAGF,CAAA;AACE,eAAA,gBAAA,EAAA;AACA,aAAA;AACA,SAAA;;AAEA,CALF,YAKE;AAAO,SAAA;;AAGT,CAAA;AACE,aAAA;AACA,SAAA;AACA,eAAA,gBAAA,EAAA;AACA,cAAA;;AAGF,CAAA;AACE,WAAA;AACA,OAAA;AACA,eAAA;;AAGF,CAAA;AACE,SAAA;AACA,mBAAA;AACA,aAAA;;AAEA,CALF,WAKE;AACE,SAAA;;AAIJ,CAAA;AACE,SAAA;AACA,aAAA;;AAGF,CAAA;AACE,eAAA,gBAAA,EAAA;AACA,aAAA;AACA,SAAA;;",
-  "names": []
-}
