@@ -62,7 +62,17 @@ def verify_firebase_token(
     conté, entre d'altres, `uid` i `email`, disponibles per a la ruta.
     Llança 401 si el token falta, és invàlid o ha caducat.
     """
-    _ensure_initialized()
+    # Si falten credencials al servidor, retornem un error CONTROLAT (HTTPException)
+    # en comptes de deixar que un RuntimeError es converteixi en un 500 sense
+    # capçaleres CORS (que el navegador reporta erròniament com a "CORS error").
+    try:
+        _ensure_initialized()
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Servei d'autenticació no configurat al servidor",
+        ) from exc
+
     try:
         return firebase_auth.verify_id_token(cred.credentials)
     except Exception as exc:
