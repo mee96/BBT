@@ -4,10 +4,10 @@
 <img src="frontend/src/assets/bbt-red.png" width="80px" align="right"/>
 
 ```
-╔══════════════════════════════════════════════════════╗
-║  ✦ B U B B L E T E A   A P I  ✦                     ║
-║  🧋 una api kawaii para gestionar bubble teas 🧋     ║
-╚══════════════════════════════════════════════════════╝
+           ╔══════════════════════════════════════════════════════╗
+           ║  ✦ B U B B L E T E A   A P I  ✦                     ║
+           ║  🧋 una api kawaii para gestionar bubble teas 🧋    ║
+           ╚══════════════════════════════════════════════════════╝
 ```
 
 <img src="frontend/src/assets/puddin.png" width="70px"/>
