@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,11 +30,11 @@ export class User implements OnInit {
 
   readonly user$: Observable<FirebaseUser | null> = this.authService.user$;
 
-  usuariAiven: UsuarioAiven | null = null;
-  editant: boolean = false;
-  loading: boolean = false;
-  error: string | null = null;
-  success: string | null = null;
+  usuariAiven = signal<UsuarioAiven | null>(null);
+  editant = signal<boolean>(false);
+  loading = signal<boolean>(false);
+  error = signal<string | null>(null);
+  success = signal<string | null>(null);
 
   // Edició
   editNom: string = '';
@@ -71,23 +71,27 @@ readonly bbts: BbtDelDia[] = [
 ];
   bbtDelDia: BbtDelDia = this.bbts[Math.floor(Math.random() * this.bbts.length)];
 
-  async ngOnInit(): Promise<void> {
-    const firebaseUser = this.authService.getCurrentUser();
-    if (firebaseUser) {
-      try {
-        const res: any = await firstValueFrom(
-          this.authService.getUsuariAiven(firebaseUser.uid)
-        );
-        if (res.ok) {
-          this.usuariAiven = res.result;
-          this.editNom = res.result?.nombre || '';
-          this.editCognom = res.result?.apellido || '';
-          this.editFechaNacimiento = res.result?.fecha_nacimiento || '';
-          this.editNotifications = res.result?.notifications ?? true;
-        }
-      } catch (err) {
-        console.error('Error carregant usuari:', err);
+  ngOnInit(): void {
+    // Esperem que Firebase resolgui la sessió abans de carregar les dades.
+    this.user$.subscribe((firebaseUser) => {
+      if (firebaseUser) {
+        this.carregarUsuari(firebaseUser.uid);
       }
+    });
+  }
+
+  private async carregarUsuari(uid: string): Promise<void> {
+    try {
+      const res: any = await firstValueFrom(this.authService.getUsuariAiven(uid));
+      if (res.ok && res.result) {
+        this.editNom = res.result.nombre || '';
+        this.editCognom = res.result.apellido || '';
+        this.editFechaNacimiento = res.result.fecha_nacimiento || '';
+        this.editNotifications = res.result.notifications ?? true;
+        this.usuariAiven.set(res.result);
+      }
+    } catch (err) {
+      console.error('Error carregant usuari:', err);
     }
   }
 
@@ -95,9 +99,9 @@ readonly bbts: BbtDelDia[] = [
     const firebaseUser = this.authService.getCurrentUser();
     if (!firebaseUser) return;
 
-    this.loading = true;
-    this.error = null;
-    this.success = null;
+    this.loading.set(true);
+    this.error.set(null);
+    this.success.set(null);
 
     try {
       await firstValueFrom(
@@ -108,13 +112,13 @@ readonly bbts: BbtDelDia[] = [
           notifications: this.editNotifications
         })
       );
-      this.success = 'Dades actualitzades! ✅';
-      this.editant = false;
-      await this.ngOnInit();
+      this.success.set('Dades actualitzades! ✅');
+      this.editant.set(false);
+      await this.carregarUsuari(firebaseUser.uid);
     } catch (err) {
-      this.error = 'Error al guardar';
+      this.error.set('Error al guardar');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
   }
 

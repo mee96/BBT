@@ -21,36 +21,36 @@
         <div class="user-inner">
 
   <p class="user-hola" [style.color]="bbtDelDia.textColor">
-    Hola, {{ usuariAiven?.nombre || user.email }}! 🧋
+    Hola, {{ usuariAiven()?.nombre || user.email }}! 🧋
   </p>
 
-  @if (error) { <p class="error">{{ error }}</p> }
-  @if (success) { <p class="success">{{ success }}</p> }
+  @if (error()) { <p class="error">{{ error() }}</p> }
+  @if (success()) { <p class="success">{{ success() }}</p> }
 
-  @if (!editant) {
+  @if (!editant()) {
     <div class="dades">
-      @if (usuariAiven?.apellido) {
+      @if (usuariAiven()?.apellido) {
         <div class="dada">
           <span class="dada-label" [style.color]="bbtDelDia.textColor">COGNOM</span>
-          <span class="dada-valor">{{ usuariAiven?.apellido }}</span>
+          <span class="dada-valor">{{ usuariAiven()?.apellido }}</span>
         </div>
       }
       <div class="dada">
         <span class="dada-label" [style.color]="bbtDelDia.textColor">EMAIL</span>
-        <span class="dada-valor">{{ usuariAiven?.email }}</span>
+        <span class="dada-valor">{{ usuariAiven()?.email }}</span>
       </div>
-      @if (usuariAiven?.fecha_nacimiento) {
+      @if (usuariAiven()?.fecha_nacimiento) {
         <div class="dada">
           <span class="dada-label" [style.color]="bbtDelDia.textColor">DATA NAIXEMENT</span>
-          <span class="dada-valor">{{ usuariAiven?.fecha_nacimiento }}</span>
+          <span class="dada-valor">{{ usuariAiven()?.fecha_nacimiento }}</span>
         </div>
       }
       <div class="dada">
         <span class="dada-label" [style.color]="bbtDelDia.textColor">NOTIFICACIONS</span>
-        <span class="dada-valor">{{ usuariAiven?.notifications ? 'Activades ✅' : 'Desactivades ❌' }}</span>
+        <span class="dada-valor">{{ usuariAiven()?.notifications ? 'Activades ✅' : 'Desactivades ❌' }}</span>
       </div>
     </div>
-    <button class="btn-edit" [style.border-color]="bbtDelDia.borderColor" (click)="editant = true">✏️ editar perfil</button>
+    <button class="btn-edit" [style.border-color]="bbtDelDia.borderColor" (click)="editant.set(true)">✏️ editar perfil</button>
 
   } @else {
   <div class="fields">
@@ -72,9 +72,9 @@
     </label>
   </div>
   <div class="btn-row">
-    <button class="btn-cancel" (click)="editant = false">cancel·lar</button>
-    <button class="btn-save" (click)="guardar()" [disabled]="loading">
-      {{ loading ? 'guardant...' : 'guardar →' }}
+    <button class="btn-cancel" (click)="editant.set(false)">cancel·lar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="loading()">
+      {{ loading() ? 'guardant...' : 'guardar →' }}
     </button>
   </div>
 }

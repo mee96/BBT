@@ -89,6 +89,28 @@
   }
 }
 
+.pw-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 100%;
+    padding-right: 38px;
+  }
+}
+
+.pw-toggle {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 4px;
+}
+
 .btn-submit {
   background: #9b7fc7;
   color: #fff;
