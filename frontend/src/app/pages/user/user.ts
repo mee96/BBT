@@ -38,11 +38,9 @@ export class User implements OnInit {
 
   // Edició
   editNom: string = '';
-  editNombreUsuario: string = '';
-  editPais: string = '';
-  editCiutat: string = '';
-  editDireccio: string = '';
-  editTelf: string = '';
+  editCognom: string = '';
+  editFechaNacimiento: string = '';
+  editNotifications: boolean = true;
 
   // Beguda del dia
 readonly bbts: BbtDelDia[] = [
@@ -83,11 +81,9 @@ readonly bbts: BbtDelDia[] = [
         if (res.ok) {
           this.usuariAiven = res.result;
           this.editNom = res.result?.nombre || '';
-          this.editNombreUsuario = res.result?.nombre_usuario || '';
-          this.editPais = res.result?.pais || '';
-          this.editCiutat = res.result?.ciudad || '';
-          this.editDireccio = res.result?.direccion || '';
-          this.editTelf = res.result?.telf?.toString() || '';
+          this.editCognom = res.result?.apellido || '';
+          this.editFechaNacimiento = res.result?.fecha_nacimiento || '';
+          this.editNotifications = res.result?.notifications ?? true;
         }
       } catch (err) {
         console.error('Error carregant usuari:', err);
@@ -107,11 +103,9 @@ readonly bbts: BbtDelDia[] = [
       await firstValueFrom(
         this.authService.updateUsuariAiven(firebaseUser.uid, {
           nombre: this.editNom,
-          nombre_usuario: this.editNombreUsuario,
-          pais: this.editPais,
-          ciudad: this.editCiutat,
-          direccion: this.editDireccio,
-          telf: this.editTelf ? parseInt(this.editTelf) : undefined
+          apellido: this.editCognom,
+          fecha_nacimiento: this.editFechaNacimiento || null,
+          notifications: this.editNotifications
         })
       );
       this.success = 'Dades actualitzades! ✅';

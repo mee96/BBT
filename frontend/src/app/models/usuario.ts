@@ -1,10 +1,9 @@
 export interface UsuarioAiven {
-  firebase_uid: string;
+  usuario_id: string;
   nombre: string;
-  nombre_usuario: string;
+  apellido?: string;
   email: string;
-  pais?: string;
-  ciudad?: string;
-  direccion?: string;
-  telf?: number;
+  fecha_nacimiento?: string;
+  active?: boolean;
+  notifications?: boolean;
 }

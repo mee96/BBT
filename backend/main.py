@@ -23,8 +23,9 @@ app.include_router(bbt.router)
 app.include_router(categorias.router)
 app.include_router(toppings.router)
 
+# Usuaris: el POST (registre) és públic; el PUT es protegeix dins del router.
+app.include_router(usuarios.router)
 # Dades sensibles: tot el router requereix token de Firebase
-app.include_router(usuarios.router, dependencies=[Depends(verify_firebase_token)])
 app.include_router(pedidos.router, dependencies=[Depends(verify_firebase_token)])
 
 @app.get("/", tags=["Root"])

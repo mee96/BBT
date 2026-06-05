@@ -3,7 +3,6 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signO
 import { HttpClient } from '@angular/common/http';
 import { Observable, firstValueFrom } from 'rxjs';
 import { User } from '@angular/fire/auth';
-import { UsuarioAiven } from '../../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +15,15 @@ export class AuthService {
 
   readonly user$: Observable<User | null> = user(this.auth);
 
-  async register(email: string, password: string, usuariDades: Omit<UsuarioAiven, 'firebase_uid' | 'email'>): Promise<void> {
+  async register(email: string, password: string, dades: { nombre: string; apellido: string }): Promise<void> {
     const credential = await createUserWithEmailAndPassword(this.auth, email, password);
-    const firebase_uid = credential.user.uid;
 
     await firstValueFrom(
       this.http.post(`${this.apiUrl}usuarios/`, {
-        firebase_uid,
-        email,
-        ...usuariDades
+        firebase_uid: credential.user.uid,
+        nombre: dades.nombre,
+        apellido: dades.apellido,
+        email
       })
     );
   }

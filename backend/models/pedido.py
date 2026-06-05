@@ -9,11 +9,8 @@ class Pedido(Base):
     __tablename__ = "pedido"
 
     pedido_id = Column(MyINTEGER(unsigned=True), primary_key=True, autoincrement=True)
-    usuario_id = Column(
-        MyINTEGER(unsigned=True),
-        ForeignKey("usuario.usuario_id", onupdate="CASCADE", ondelete="RESTRICT"),
-        nullable=False,
-    )
+    # Desacoplat de la taula d'usuaris (sense FK): es guarda el valor solt.
+    usuario_id = Column(MyINTEGER(unsigned=True), nullable=False)
     fecha_pedido = Column(TIMESTAMP, nullable=False, server_default=func.current_timestamp())
     envio_nacional = Column(Boolean, default=False)
     direccion_envio = Column(String(60), nullable=True)
@@ -24,7 +21,6 @@ class Pedido(Base):
     )
     precio_total = Column(DECIMAL(8, 2), default=0.00)
 
-    usuario = relationship("Usuario", back_populates="pedidos")
     lineas = relationship(
         "PedidoLinea", back_populates="pedido", cascade="all, delete-orphan"
     )

@@ -1,22 +1,15 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.mysql import INTEGER as MyINTEGER
+from sqlalchemy import Column, String, Boolean, Date
 
 from database.connection import Base
 
 
 class Usuario(Base):
-    __tablename__ = "usuario"
+    __tablename__ = "entity_user"
 
-    usuario_id = Column(MyINTEGER(unsigned=True), primary_key=True, autoincrement=True)
-    firebase_uid = Column(String(128), unique=True, nullable=True)
+    usuario_id = Column(String(128), primary_key=True)  # = firebase_uid
     nombre = Column(String(50), nullable=False)
-    nombre_usuario = Column(String(30), unique=True, nullable=False)
+    apellido = Column(String(50), nullable=True)
     email = Column(String(50), unique=True, nullable=False)
-    contrasena = Column(String(20), nullable=True)
-    pais = Column(String(30), nullable=True)
-    ciudad = Column(String(30), nullable=True)
-    direccion = Column(String(60), nullable=True)
-    telf = Column(Integer, nullable=True)
-
-    pedidos = relationship("Pedido", back_populates="usuario")
+    fecha_nacimiento = Column(Date, nullable=True)
+    active = Column(Boolean, default=True)
+    notifications = Column(Boolean, default=True)

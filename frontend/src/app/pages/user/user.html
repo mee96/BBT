@@ -29,30 +29,26 @@
 
   @if (!editant) {
     <div class="dades">
-      @if (usuariAiven?.nombre_usuario) {
+      @if (usuariAiven?.apellido) {
         <div class="dada">
-          <span class="dada-label" [style.color]="bbtDelDia.textColor">USUARI</span>
-          <span class="dada-valor">@{{ usuariAiven?.nombre_usuario }}</span>
+          <span class="dada-label" [style.color]="bbtDelDia.textColor">COGNOM</span>
+          <span class="dada-valor">{{ usuariAiven?.apellido }}</span>
         </div>
       }
-      @if (usuariAiven?.pais) {
+      <div class="dada">
+        <span class="dada-label" [style.color]="bbtDelDia.textColor">EMAIL</span>
+        <span class="dada-valor">{{ usuariAiven?.email }}</span>
+      </div>
+      @if (usuariAiven?.fecha_nacimiento) {
         <div class="dada">
-          <span class="dada-label" [style.color]="bbtDelDia.textColor">PAÍS</span>
-          <span class="dada-valor">{{ usuariAiven?.pais }}</span>
+          <span class="dada-label" [style.color]="bbtDelDia.textColor">DATA NAIXEMENT</span>
+          <span class="dada-valor">{{ usuariAiven?.fecha_nacimiento }}</span>
         </div>
       }
-      @if (usuariAiven?.ciudad) {
-        <div class="dada">
-          <span class="dada-label" [style.color]="bbtDelDia.textColor">CIUTAT</span>
-          <span class="dada-valor">{{ usuariAiven?.ciudad }}</span>
-        </div>
-      }
-      @if (usuariAiven?.telf) {
-        <div class="dada">
-          <span class="dada-label" [style.color]="bbtDelDia.textColor">TELÈFON</span>
-          <span class="dada-valor">{{ usuariAiven?.telf }}</span>
-        </div>
-      }
+      <div class="dada">
+        <span class="dada-label" [style.color]="bbtDelDia.textColor">NOTIFICACIONS</span>
+        <span class="dada-valor">{{ usuariAiven?.notifications ? 'Activades ✅' : 'Desactivades ❌' }}</span>
+      </div>
     </div>
     <button class="btn-edit" [style.border-color]="bbtDelDia.borderColor" (click)="editant = true">✏️ editar perfil</button>
 
@@ -63,25 +59,17 @@
       <input type="text" [(ngModel)]="editNom" placeholder="el teu nom"/>
     </div>
     <div class="field">
-      <label>NOM D'USUARI</label>
-      <input type="text" [(ngModel)]="editNombreUsuario" placeholder="@username"/>
+      <label>COGNOM</label>
+      <input type="text" [(ngModel)]="editCognom" placeholder="el teu cognom"/>
     </div>
     <div class="field">
-      <label>PAÍS</label>
-      <input type="text" [(ngModel)]="editPais" placeholder="Espanya"/>
+      <label>DATA NAIXEMENT</label>
+      <input type="date" [(ngModel)]="editFechaNacimiento"/>
     </div>
-    <div class="field">
-      <label>CIUTAT</label>
-      <input type="text" [(ngModel)]="editCiutat" placeholder="Barcelona"/>
-    </div>
-    <div class="field">
-      <label>DIRECCIÓ</label>
-      <input type="text" [(ngModel)]="editDireccio" placeholder="Carrer..."/>
-    </div>
-    <div class="field">
-      <label>TELÈFON</label>
-      <input type="text" [(ngModel)]="editTelf" placeholder="612345678"/>
-    </div>
+    <label class="checkbox-item">
+      <input type="checkbox" [(ngModel)]="editNotifications"/>
+      <span>🔔 Rebre notificacions</span>
+    </label>
   </div>
   <div class="btn-row">
     <button class="btn-cancel" (click)="editant = false">cancel·lar</button>
