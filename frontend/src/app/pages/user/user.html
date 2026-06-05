@@ -29,12 +29,6 @@
 
   @if (!editant()) {
     <div class="dades">
-      @if (usuariAiven()?.apellido) {
-        <div class="dada">
-          <span class="dada-label" [style.color]="bbtDelDia.textColor">COGNOM</span>
-          <span class="dada-valor">{{ usuariAiven()?.apellido }}</span>
-        </div>
-      }
       <div class="dada">
         <span class="dada-label" [style.color]="bbtDelDia.textColor">EMAIL</span>
         <span class="dada-valor">{{ usuariAiven()?.email }}</span>
