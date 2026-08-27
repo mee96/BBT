@@ -18,6 +18,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-Aiven-b8e8d4?style=for-the-badge&logo=mysql&logoColor=2d1b6e)
 ![Firebase](https://img.shields.io/badge/Firebase-Auth-f0e4a0?style=for-the-badge&logo=firebase&logoColor=2d1b6e)
 
+
 <br/>
 
 [![Demo](https://img.shields.io/badge/🌐_Demo_en_viu-f4b8d4?style=flat-square&logoColor=2d1b6e)](https://bubbletea-api.vercel.app)
@@ -25,6 +26,7 @@
 [![API Docs](https://img.shields.io/badge/📖_API_Docs-b8e8d4?style=flat-square&logoColor=2d1b6e)](https://bbt-760x.onrender.com/docs)
 &nbsp;
 [![Issues](https://img.shields.io/badge/🐛_Issues-a8c4f0?style=flat-square&logoColor=2d1b6e)](https://github.com/mee96/BBT/issues)
+[![Keep Alive Active](https://img.shields.io/badge/Keep--Alive-Active-b8e8d4?style=flat-square&logo=githubactions&logoColor=2d1b6e)](https://github.com/mee96/keep-alive)
 
 </div>
 
@@ -120,13 +122,15 @@ GET    /pedidos/     → Comandes</code></pre>
 pip install -r requirements.txt
 cp .env.example .env    # Omple les credencials
 uvicorn main:app --reload</code></pre>
-
+> ⚡ **Disponibilitat:** El backend es manté actiu sense *cold starts* gràcies a un ping automàtic de [Keep-Alive](https://github.com/mee96/keep-alive).
+> 
 ### Frontend
 <pre><code>cd frontend
 npm install
 ng serve</code></pre>
 
 > Accedeix a `http://localhost:4200` ✨
+
 
 <br/>
 
