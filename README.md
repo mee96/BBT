@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=f4b8d4&height=180&section=header&text=✦%20BUBBLE%20TEA%20API%20✦&fontColor=2d1b6e&fontSize=34&desc=una%20api%20kawaii%20para%20gestionar%20bubble%20teas&descSize=16&descColor=2d1b6e&descAlignY=65&fontAlignY=42" width="100%" alt="Bubble Tea API" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=f4b8d4&height=180&section=header&text=✦%20BUBBLE%20TEA%20API%20✦&fontColor=2d1b6e&fontSize=34&desc=a%20kawaii%20api%20for%20managing%20bubble%20teas&descSize=16&descColor=2d1b6e&descAlignY=65&fontAlignY=42" width="100%" alt="Bubble Tea API" />
 
 <br/>
 
@@ -12,6 +12,13 @@
 
 <br/><br/>
 
+<div align="center">
+<a href="README.md"><img src="https://img.shields.io/badge/English-1b2e4b?style=flat-square" alt="English"></a>
+<a href="README.es.md"><img src="https://img.shields.io/badge/Espa%C3%B1ol-a8c4f0?style=flat-square&logoColor=1b2e4b" alt="Español"></a>
+</div>
+
+<br/>
+
 ![Python](https://img.shields.io/badge/Python-3.11-c5b9f0?style=for-the-badge&logo=python&logoColor=2d1b6e)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-f4b8d4?style=for-the-badge&logo=fastapi&logoColor=2d1b6e)
 ![Angular](https://img.shields.io/badge/Angular-21-a8c4f0?style=for-the-badge&logo=angular&logoColor=2d1b6e)
@@ -21,7 +28,7 @@
 
 <br/>
 
-[![Demo](https://img.shields.io/badge/🌐_Demo_en_viu-f4b8d4?style=flat-square&logoColor=2d1b6e)](https://bubbletea-api.vercel.app)
+[![Demo](https://img.shields.io/badge/🌐_Live_Demo-f4b8d4?style=flat-square&logoColor=2d1b6e)](https://bubbletea-api.vercel.app)
 &nbsp;
 [![API Docs](https://img.shields.io/badge/📖_API_Docs-b8e8d4?style=flat-square&logoColor=2d1b6e)](https://bbt-760x.onrender.com/docs)
 &nbsp;
@@ -34,19 +41,19 @@
 
 ---
 
-## <img src="https://api.iconify.design/ph/question-fill.svg?color=%23FF6FA8&height=24" height="22"> &nbsp;Què és això?
+## <img src="https://api.iconify.design/ph/question-fill.svg?color=%23FF6FA8&height=24" height="22"> &nbsp;What is this?
 
-**BubbleTea API** és un projecte full-stack que permet explorar, gestionar i degustar (virtualment) una col·lecció de 55 bubble teas.
+**BubbleTea API** is a full-stack project that lets you explore, manage, and (virtually) taste a collection of 53 bubble teas.
 
-Construït com a projecte que combina un backend en **FastAPI** amb una base de dades **MySQL** a Aiven Cloud, autenticació amb **Firebase**, i un frontend **Angular** amb una acurada estètica *pixel art kawaii*.
+Built as a project combining a **FastAPI** backend with a **MySQL** database on Aiven Cloud, **Firebase** authentication, and an **Angular** frontend with a carefully crafted *kawaii pixel art* aesthetic.
 
 <br/>
 
 ---
 
-## <img src="https://api.iconify.design/ph/stack-fill.svg?color=%23B372CF&height=24" height="22"> &nbsp;Stack Tecnològic
+## <img src="https://api.iconify.design/ph/stack-fill.svg?color=%23B372CF&height=24" height="22"> &nbsp;Technology Stack
 
-| Capa | Tecnologia |
+| Layer | Technology |
 | :--- | :--- |
 | <img src="https://api.iconify.design/ph/desktop-tower-fill.svg?color=%23FF6FA8&height=18" height="16"> **Frontend** | Angular 21 · SCSS · Firebase Auth |
 | <img src="https://api.iconify.design/ph/cpu-fill.svg?color=%23B372CF&height=18" height="16"> **Backend** | FastAPI · Python 3.11 · SQLAlchemy |
@@ -58,42 +65,42 @@ Construït com a projecte que combina un backend en **FastAPI** amb una base de 
 
 ---
 
-## <img src="https://api.iconify.design/ph/code-bold.svg?color=%235B9BD5&height=24" height="22"> &nbsp;Endpoints principals
+## <img src="https://api.iconify.design/ph/code-bold.svg?color=%235B9BD5&height=24" height="22"> &nbsp;Main Endpoints
 
 ### <img src="https://api.iconify.design/ph/coffee-fill.svg?color=%23E0A63B&height=20" height="18"> Bubble Teas
-<pre><code>GET    /bubbleteas/        → Llista amb filtres (categoria, vegà, calent...)
-GET    /bubbleteas/random → Beguda aleatòria del dia
-GET    /bubbleteas/{id}   → Detall d'una beguda
-POST   /bubbleteas/       → Crear beguda 🔒
-PUT    /bubbleteas/{id}   → Editar beguda 🔒
+<pre><code>GET    /bubbleteas/        → List with filters (category, vegan, hot...)
+GET    /bubbleteas/random → Random drink of the day
+GET    /bubbleteas/{id}   → Drink details
+POST   /bubbleteas/       → Create drink 🔒
+PUT    /bubbleteas/{id}   → Edit drink 🔒
 DELETE /bubbleteas/{id}   → Soft delete 🔒</code></pre>
 
-### <img src="https://api.iconify.design/ph/user-fill.svg?color=%23FF6FA8&height=20" height="18"> Usuaris
-<pre><code>GET    /usuarios/                → Llista d'usuaris
-POST   /usuarios/                → Registre (públic)
-GET    /usuarios/firebase/{uid}  → Perfil per UID Firebase
-PUT    /usuarios/firebase/{uid}  → Actualitzar perfil 🔒</code></pre>
+### <img src="https://api.iconify.design/ph/user-fill.svg?color=%23FF6FA8&height=20" height="18"> Users
+<pre><code>GET    /usuarios/                → User list
+POST   /usuarios/                → Registration (public)
+GET    /usuarios/firebase/{uid}  → Profile by Firebase UID
+PUT    /usuarios/firebase/{uid}  → Update profile 🔒</code></pre>
 
-### <img src="https://api.iconify.design/ph/tag-fill.svg?color=%23B372CF&height=20" height="18"> Altres
-<pre><code>GET    /categorias/  → Categories de begudes
-GET    /toppings/    → Toppings disponibles
-GET    /alergenos/   → Informació d'al·lèrgens
-GET    /pedidos/     → Comandes</code></pre>
+### <img src="https://api.iconify.design/ph/tag-fill.svg?color=%23B372CF&height=20" height="18"> Other
+<pre><code>GET    /categorias/  → Drink categories
+GET    /toppings/    → Available toppings
+GET    /alergenos/   → Allergen information
+GET    /pedidos/     → Orders</code></pre>
 
-> 🔒 *Els endpoints protegits requereixen token Firebase (`Authorization: Bearer <token>`).*
+> 🔒 *Protected endpoints require a Firebase token (`Authorization: Bearer <token>`).*
 
 <br/>
 
 ---
 
-## <img src="https://api.iconify.design/ph/folder-fill.svg?color=%232FB5AE&height=24" height="22"> &nbsp;Estructura del projecte
+## <img src="https://api.iconify.design/ph/folder-fill.svg?color=%232FB5AE&height=24" height="22"> &nbsp;Project Structure
 
 <pre><code>BBT/
 ├── 🐍 backend/
 │   ├── main.py
 │   ├── models/
 │   ├── routers/
-│   │   ├── bbt.py          → CRUD begudes + filtres + JOINs
+│   │   ├── bbt.py          → Drink CRUD + filters + JOINs
 │   │   ├── categorias.py
 │   │   ├── toppings.py
 │   │   ├── usuarios.py
@@ -103,42 +110,42 @@ GET    /pedidos/     → Comandes</code></pre>
 └── 🅰️ frontend/
     └── src/app/
         ├── pages/
-        │   ├── home/        → Hero + Stats + Beguda random
-        │   ├── bebidas/     → Grid amb filtres 🔒
+        │   ├── home/        → Hero + Stats + Random drink
+        │   ├── bebidas/     → Grid with filters 🔒
         │   ├── login/
         │   ├── register/
-        │   ├── user/        → Perfil + Edició
-        │   └── admin/       → Panel CRUD 🔒
+        │   ├── user/        → Profile + Editing
+        │   └── admin/       → CRUD Panel 🔒
         └── services/</code></pre>
 
 <br/>
 
 ---
 
-## <img src="https://api.iconify.design/ph/play-fill.svg?color=%23B372CF&height=24" height="22"> &nbsp;Com arrencar en local
+## <img src="https://api.iconify.design/ph/play-fill.svg?color=%23B372CF&height=24" height="22"> &nbsp;Run Locally
 
 ### Backend
 <pre><code>cd backend
 pip install -r requirements.txt
-cp .env.example .env    # Omple les credencials
+cp .env.example .env    # Fill in the credentials
 uvicorn main:app --reload</code></pre>
-> ⚡ **Disponibilitat:** El backend es manté actiu sense *cold starts* gràcies a un ping automàtic de [Keep-Alive](https://github.com/mee96/keep-alive).
+> ⚡ **Availability:** The backend stays active without *cold starts* thanks to an automatic ping from [Keep-Alive](https://github.com/mee96/keep-alive).
 > 
 ### Frontend
 <pre><code>cd frontend
 npm install
 ng serve</code></pre>
 
-> Accedeix a `http://localhost:4200` ✨
+> Open `http://localhost:4200` ✨
 
 
 <br/>
 
 ---
 
-## <img src="https://api.iconify.design/ph/sliders-horizontal-fill.svg?color=%23FF6FA8&height=24" height="22"> &nbsp;Variables d'entorn
+## <img src="https://api.iconify.design/ph/sliders-horizontal-fill.svg?color=%23FF6FA8&height=24" height="22"> &nbsp;Environment Variables
 
-Crea un fitxer `.env` al directori `backend/`:
+Create a `.env` file in the `backend/` directory:
 
 <pre><code>HOST=...
 USER=...
@@ -146,20 +153,20 @@ PASSWORD=...
 DB=...
 PORT=...</code></pre>
 
-*Per a **Firebase Admin** (necessari per als endpoints protegits), afegeix la variable `FIREBASE_CREDENTIALS` amb el JSON del Service Account.*
+*For **Firebase Admin** (required for protected endpoints), add the `FIREBASE_CREDENTIALS` variable with the Service Account JSON.*
 
 <br/>
 
 ---
 
-## <img src="https://api.iconify.design/ph/sparkle-fill.svg?color=%235B9BD5&height=24" height="22"> &nbsp;Característiques principals
+## <img src="https://api.iconify.design/ph/sparkle-fill.svg?color=%235B9BD5&height=24" height="22"> &nbsp;Key Features
 
-* <img src="https://api.iconify.design/ph/coffee-fill.svg?color=%23E0A63B&height=18" height="16"> **55 Bubble Teas:** Catàleg complet amb categories, toppings i al·lèrgens.
-* <img src="https://api.iconify.design/ph/dice-five-fill.svg?color=%23B372CF&height=18" height="16"> **Beguda aleatòria del dia:** Generador dinàmic al perfil d'usuari.
-* <img src="https://api.iconify.design/ph/funnel-fill.svg?color=%232FB5AE&height=18" height="16"> **Filtres avançats:** Per vegà, calent, categoria o estat actiu.
-* <img src="https://api.iconify.design/ph/shield-check-fill.svg?color=%23FF6FA8&height=18" height="16"> **Autenticació Firebase:** Amb `firebase_uid` integrat com a PK d'usuari.
-* <img src="https://api.iconify.design/ph/trash-fill.svg?color=%235B9BD5&height=18" height="16"> **Soft Delete:** Les begudes no s'eliminen mai físicament de la BD.
-* <img src="https://api.iconify.design/ph/paint-brush-broad-fill.svg?color=%23B372CF&height=18" height="16"> **Estètica Kawaii:** Disseny pixel art amb la font *Press Start 2P*.
+* <img src="https://api.iconify.design/ph/coffee-fill.svg?color=%23E0A63B&height=18" height="16"> **53 Bubble Teas:** Complete catalog with categories, toppings, and allergens.
+* <img src="https://api.iconify.design/ph/dice-five-fill.svg?color=%23B372CF&height=18" height="16"> **Random drink of the day:** Dynamic generator on the user profile.
+* <img src="https://api.iconify.design/ph/funnel-fill.svg?color=%232FB5AE&height=18" height="16"> **Advanced filters:** By vegan, hot, category, or active status.
+* <img src="https://api.iconify.design/ph/shield-check-fill.svg?color=%23FF6FA8&height=18" height="16"> **Firebase Authentication:** With `firebase_uid` integrated as the user PK.
+* <img src="https://api.iconify.design/ph/trash-fill.svg?color=%235B9BD5&height=18" height="16"> **Soft Delete:** Drinks are never physically removed from the database.
+* <img src="https://api.iconify.design/ph/paint-brush-broad-fill.svg?color=%23B372CF&height=18" height="16"> **Kawaii Aesthetic:** Pixel art design with the *Press Start 2P* font.
 
 <br/>
 
@@ -171,14 +178,14 @@ PORT=...</code></pre>
 
 <br/>
 
-<b>fet amb 🧋 per amor als 🧋</b>
+<b>made with 🧋 for the love of 🧋</b>
 
 <br/><br/>
 
-Desenvolupat per **Carme Medina Canalda**  
+Developed by **Carme Medina Canalda**<br/>
 *Full Stack Developer · Barcelona*
 
-*"Si l'arquitectura és correcta, tot encaixarà"*
+*"If the architecture is right, everything will fit"*
 
 <br/>
 
