@@ -15,6 +15,7 @@
 <div align="center">
 <a href="README.md"><img src="https://img.shields.io/badge/English-1b2e4b?style=flat-square" alt="English"></a>
 <a href="README.es.md"><img src="https://img.shields.io/badge/Espa%C3%B1ol-a8c4f0?style=flat-square&logoColor=1b2e4b" alt="Español"></a>
+<a href="README.ca.md"><img src="https://img.shields.io/badge/Català-f4b8d4?style=flat-square&logoColor=2d1b6e" alt="Català"></a>
 </div>
 
 <br/>
