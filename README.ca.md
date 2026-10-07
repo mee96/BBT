@@ -33,7 +33,7 @@
 [![API Docs](https://img.shields.io/badge/📖_API_Docs-b8e8d4?style=flat-square&logoColor=2d1b6e)](https://bbt-760x.onrender.com/docs)
 &nbsp;
 [![Issues](https://img.shields.io/badge/🐛_Issues-a8c4f0?style=flat-square&logoColor=2d1b6e)](https://github.com/mee96/BBT/issues)
-[![Keep Alive Active](https://img.shields.io/badge/Keep--Alive-Active-b8e8d4?style=flat-square&logo=githubactions&logoColor=2d1b6e)](https://github.com/mee96/keep-alive)
+![Render Free Tier](https://img.shields.io/badge/Render_Free_Tier-Cold_start_~1_min-f0e4a0?style=flat-square&logo=render&logoColor=2d1b6e)
 
 </div>
 
@@ -129,7 +129,7 @@ GET    /pedidos/     → Comandes</code></pre>
 pip install -r requirements.txt
 cp .env.example .env    # Omple les credencials
 uvicorn main:app --reload</code></pre>
-> ⚡ **Disponibilitat:** El backend es manté actiu sense *cold starts* gràcies a un ping automàtic de [Keep-Alive](https://github.com/mee96/keep-alive).
+> ⏳ **Disponibilitat:** El backend està allotjat al pla gratuït de Render i se suspèn després d'un període d'inactivitat. La primera petició pot trigar 30–60 segons mentre el servidor arrenca; després respon amb normalitat.
 >
 ### Frontend
 <pre><code>cd frontend
