@@ -4,10 +4,8 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session, joinedload
 
-from auth import verify_firebase_token
 from database.connection import get_db
 from models import BubbleTea, BubbleTeaAlergeno
-from schemas import BubbleTeaCreate, BubbleTeaUpdate
 
 router = APIRouter(prefix="/bubbleteas", tags=["BubbleTeas"])
 
@@ -99,68 +97,4 @@ def get_bubble_tea_by_id(bubbletea_id: int, db: Session = Depends(get_db)):
         )
         return {"ok": True, "result": _serialize(b) if b else None}
     except Exception as e:
-        return {"ok": False, "error": str(e)}
-
-
-@router.post("/", dependencies=[Depends(verify_firebase_token)])
-def create_bubble_tea(bubble_tea: BubbleTeaCreate, db: Session = Depends(get_db)):
-    try:
-        nuevo = BubbleTea(
-            nombre=bubble_tea.nombre,
-            tipo_bubbletea=bubble_tea.tipo_bubbletea,
-            descripcion=bubble_tea.descripcion,
-            categoria_id=bubble_tea.categoria_id,
-            disponible_caliente=bubble_tea.disponible_caliente,
-            es_vegano=bubble_tea.es_vegano,
-            tiene_cafeina=bubble_tea.tiene_cafeina,
-            stock=bubble_tea.stock,
-            active=bubble_tea.active,
-        )
-        db.add(nuevo)
-        db.commit()
-        db.refresh(nuevo)
-        return {"ok": True, "result": _serialize(nuevo)}
-    except Exception as e:
-        db.rollback()
-        return {"ok": False, "error": str(e)}
-
-
-@router.put("/{bubbletea_id}", dependencies=[Depends(verify_firebase_token)])
-def update_bubble_tea(
-    bubbletea_id: int, bubble_tea: BubbleTeaUpdate, db: Session = Depends(get_db)
-):
-    try:
-        b = db.query(BubbleTea).filter(BubbleTea.bubbletea_id == bubbletea_id).first()
-        if b is None:
-            return {"ok": False, "error": "BubbleTea no trobat"}
-
-        b.nombre = bubble_tea.nombre
-        b.tipo_bubbletea = bubble_tea.tipo_bubbletea
-        b.descripcion = bubble_tea.descripcion
-        b.categoria_id = bubble_tea.categoria_id
-        b.disponible_caliente = bubble_tea.disponible_caliente
-        b.es_vegano = bubble_tea.es_vegano
-        b.tiene_cafeina = bubble_tea.tiene_cafeina
-        b.stock = bubble_tea.stock
-        b.active = bubble_tea.active
-
-        db.commit()
-        db.refresh(b)
-        return {"ok": True, "result": _serialize(b)}
-    except Exception as e:
-        db.rollback()
-        return {"ok": False, "error": str(e)}
-
-
-@router.delete("/{bubbletea_id}", dependencies=[Depends(verify_firebase_token)])
-def delete_bubble_tea(bubbletea_id: int, db: Session = Depends(get_db)):
-    try:
-        b = db.query(BubbleTea).filter(BubbleTea.bubbletea_id == bubbletea_id).first()
-        if b is None:
-            return {"ok": False, "error": "BubbleTea no trobat"}
-        b.active = False
-        db.commit()
-        return {"ok": True}
-    except Exception as e:
-        db.rollback()
         return {"ok": False, "error": str(e)}
