@@ -1,8 +1,7 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from auth import verify_firebase_token
-from routers import bbt, categorias, toppings, usuarios, pedidos
+from routers import bbt, categorias, toppings
 
 app = FastAPI(
     title="🧋 BubbleTea API",
@@ -23,10 +22,8 @@ app.include_router(bbt.router)
 app.include_router(categorias.router)
 app.include_router(toppings.router)
 
-# Usuaris: el POST (registre) és públic; el PUT es protegeix dins del router.
-app.include_router(usuarios.router)
-# Dades sensibles: tot el router requereix token de Firebase
-app.include_router(pedidos.router, dependencies=[Depends(verify_firebase_token)])
+# M0 · Containment (#4, #5, #6): users and orders routers removed.
+# The catalog is read-only: no write routes are registered.
 
 @app.get("/", tags=["Root"])
 def root() -> dict[str, object]:

@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BubbleteaService, BubbleTea } from '../../services/bubbletea';
-import { AuthService } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-home',
@@ -21,8 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private bubbleteaService: BubbleteaService,
     private cdr: ChangeDetectorRef,
-    private router: Router,
-    private authService: AuthService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -30,12 +28,7 @@ export class HomeComponent implements OnInit {
   }
 
   explorarBegudes(): void {
-    const user = this.authService.getCurrentUser();
-    if (user) {
-      this.router.navigate(['/bebidas']);
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.router.navigate(['/bebidas']);
   }
 
   copiarUrl(): void {
